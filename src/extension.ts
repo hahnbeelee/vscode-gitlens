@@ -114,8 +114,6 @@ export async function activate(context: ExtensionContext): Promise<GitLensApi | 
 		registerBuiltInActionRunners(container);
 		registerPartnerActionRunners(context);
 
-		void showWelcomeOrWhatsNew(container, gitlensVersion, previousVersion);
-
 		void context.globalState.update(StorageKeys.Version, gitlensVersion);
 
 		// Only update our synced version if the new version is greater
@@ -213,78 +211,3 @@ function registerBuiltInActionRunners(container: Container): void {
 	);
 }
 
-async function showWelcomeOrWhatsNew(container: Container, version: string, previousVersion: string | undefined) {
-	if (previousVersion == null) {
-		Logger.log(`GitLens first-time install; window.focused=${window.state.focused}`);
-
-		void executeCommand(Commands.ShowHomeView);
-
-		if (container.config.showWelcomeOnInstall === false) return;
-
-		if (window.state.focused) {
-			await container.storage.delete(StorageKeys.PendingWelcomeOnFocus);
-			await executeCommand(Commands.ShowWelcomePage);
-		} else {
-			// Save pending on window getting focus
-			await container.storage.store(StorageKeys.PendingWelcomeOnFocus, true);
-			const disposable = window.onDidChangeWindowState(e => {
-				if (!e.focused) return;
-
-				disposable.dispose();
-
-				// If the window is now focused and we are pending the welcome, clear the pending state and show the welcome
-				if (container.storage.get(StorageKeys.PendingWelcomeOnFocus) === true) {
-					void container.storage.delete(StorageKeys.PendingWelcomeOnFocus);
-					if (container.config.showWelcomeOnInstall) {
-						void executeCommand(Commands.ShowWelcomePage);
-					}
-				}
-			});
-			container.context.subscriptions.push(disposable);
-		}
-
-		return;
-	}
-
-	if (previousVersion !== version) {
-		Logger.log(`GitLens upgraded from v${previousVersion} to v${version}; window.focused=${window.state.focused}`);
-	}
-
-	const [major, minor] = version.split('.').map(v => parseInt(v, 10));
-	const [prevMajor, prevMinor] = previousVersion.split('.').map(v => parseInt(v, 10));
-
-	// Don't notify on downgrades
-	if (major === prevMajor || major < prevMajor || (major === prevMajor && minor < prevMinor)) {
-		return;
-	}
-
-	if (major !== prevMajor) {
-		version = String(major);
-	}
-
-	void executeCommand(Commands.ShowHomeView);
-
-	if (container.config.showWhatsNewAfterUpgrades) {
-		if (window.state.focused) {
-			await container.storage.delete(StorageKeys.PendingWhatsNewOnFocus);
-			await Messages.showWhatsNewMessage(version);
-		} else {
-			// Save pending on window getting focus
-			await container.storage.store(StorageKeys.PendingWhatsNewOnFocus, true);
-			const disposable = window.onDidChangeWindowState(e => {
-				if (!e.focused) return;
-
-				disposable.dispose();
-
-				// If the window is now focused and we are pending the what's new, clear the pending state and show the what's new
-				if (container.storage.get(StorageKeys.PendingWhatsNewOnFocus) === true) {
-					void container.storage.delete(StorageKeys.PendingWhatsNewOnFocus);
-					if (container.config.showWhatsNewAfterUpgrades) {
-						void Messages.showWhatsNewMessage(version);
-					}
-				}
-			});
-			container.context.subscriptions.push(disposable);
-		}
-	}
-}

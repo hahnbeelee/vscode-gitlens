@@ -218,7 +218,6 @@ export class SubscriptionService implements Disposable {
 	async loginOrSignUp(): Promise<boolean> {
 		if (!(await ensurePlusFeaturesEnabled())) return false;
 
-		void this.showHomeView();
 
 		const session = await this.ensureSession(true);
 		const loggedIn = Boolean(session);
@@ -307,7 +306,6 @@ export class SubscriptionService implements Disposable {
 				Uri.joinPath(this.baseAccountUri, 'create-organization').with({ query: 'product=gitlens' }),
 			);
 		}
-		await this.showHomeView();
 	}
 
 	@gate()
@@ -317,7 +315,6 @@ export class SubscriptionService implements Disposable {
 
 		const cc = Logger.getCorrelationContext();
 
-		void this.showHomeView(true);
 
 		const session = await this.ensureSession(false);
 		if (session == null) return;
@@ -360,15 +357,6 @@ export class SubscriptionService implements Disposable {
 		}
 	}
 
-	@log()
-	async showHomeView(silent: boolean = false): Promise<void> {
-		if (silent && !configuration.get('plusFeatures.enabled', undefined, true)) return;
-
-		if (!this.container.homeView.visible) {
-			await executeCommand(Commands.ShowHomeView);
-		}
-	}
-
 	private showPlans(): void {
 		void env.openExternal(Uri.joinPath(this.baseSiteUri, 'gitlens/pricing'));
 	}
@@ -380,7 +368,6 @@ export class SubscriptionService implements Disposable {
 
 		let { plan, previewTrial } = this._subscription;
 		if (previewTrial != null || plan.effective.id !== SubscriptionPlanId.Free) {
-			void this.showHomeView();
 
 			if (plan.effective.id === SubscriptionPlanId.Free) {
 				const confirm: MessageItem = { title: 'Sign in to GitLens+', isCloseAffordance: true };
@@ -801,7 +788,6 @@ export class SubscriptionService implements Disposable {
 		}
 
 		this._statusBarSubscription.name = 'GitLens+ Subscription';
-		this._statusBarSubscription.command = Commands.ShowHomeView;
 
 		if (account?.verified === false) {
 			this._statusBarSubscription.text = `$(warning) ${effective.name} (Unverified)`;

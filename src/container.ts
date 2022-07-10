@@ -53,7 +53,6 @@ import { ViewCommands } from './views/viewCommands';
 import { ViewFileDecorationProvider } from './views/viewDecorationProvider';
 import { WorktreesView } from './views/worktreesView';
 import { VslsController } from './vsls/vsls';
-import { HomeWebviewView } from './webviews/home/homeWebviewView';
 import { RebaseEditorProvider } from './webviews/rebase/rebaseEditor';
 import { SettingsWebview } from './webviews/settings/settingsWebview';
 import { WelcomeWebview } from './webviews/welcome/welcomeWebview';
@@ -194,7 +193,6 @@ export class Container {
 		context.subscriptions.push((this._contributorsView = new ContributorsView(this)));
 		context.subscriptions.push((this._searchAndCompareView = new SearchAndCompareView(this)));
 
-		context.subscriptions.push((this._homeView = new HomeWebviewView(this)));
 
 		if (config.terminalLinks.enabled) {
 			context.subscriptions.push((this._terminalLinks = new GitTerminalLinkProvider(this)));
@@ -360,15 +358,6 @@ export class Container {
 			Logger.error(ex);
 			return undefined;
 		}
-	}
-
-	private _homeView: HomeWebviewView | undefined;
-	get homeView() {
-		if (this._homeView == null) {
-			this._context.subscriptions.push((this._homeView = new HomeWebviewView(this)));
-		}
-
-		return this._homeView;
 	}
 
 	@memoize()
