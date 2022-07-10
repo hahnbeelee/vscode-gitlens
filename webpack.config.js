@@ -20,6 +20,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { WebpackError } = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
 module.exports =
 	/**
@@ -42,8 +43,108 @@ module.exports =
 			getExtensionConfig('node', mode, env),
 			getExtensionConfig('webworker', mode, env),
 			getWebviewsConfig(mode, env),
+			getMintlifyWebviewConfig(mode, env, {
+				'webviewActivityBar': './src/mintlify/webviews/activityBarWebview/index.ts'
+			})
 		];
 	};
+
+/**
+ * @param { 'production' | 'development' | 'none' } mode
+ * @param {{ esbuild?: boolean; }} env
+ * @param { WebpackConfig['entry'] } entry
+ * @returns { WebpackConfig }
+ */
+function getMintlifyWebviewConfig(mode, env, entry) {
+	const basePath = path.join(__dirname, 'src', 'mintlify', 'webviews');
+
+	/**
+	 * @type WebpackConfig['plugins'] | any
+	 */
+	const plugins = [
+		new ForkTsCheckerPlugin({
+			async: false,
+			formatter: 'basic',
+			typescript: {
+				configFile: path.join(__dirname, 'tsconfig.webviews.json'),
+			},
+		}),
+	];
+
+	return {
+		name: 'mintlify-webviews',
+		entry: entry,
+		mode: mode,
+		target: 'web',
+		devtool: mode !== 'production' ? 'source-map' : undefined,
+		output: {
+			filename: '[name].js',
+			path: path.resolve(__dirname, 'dist'),
+		},
+		optimization: {
+			minimizer: [
+				// @ts-ignore
+				env.esbuild
+					? new ESBuildMinifyPlugin({
+						format: 'cjs',
+						minify: true,
+						treeShaking: true,
+						// Keep the class names
+						keepNames: true,
+						target: 'es2020',
+					})
+					: new TerserPlugin({
+						extractComments: false,
+						parallel: true,
+						terserOptions: {
+							ecma: 2020,
+							// eslint-disable-next-line @typescript-eslint/naming-convention
+							keep_classnames: /^AbortSignal$/,
+							module: true,
+						},
+					}),
+			],
+		},
+		module: {
+			rules: [
+				{
+					exclude: /node_modules/,
+					include: [basePath, path.join(__dirname, 'src')],
+					test: /\.tsx?$/,
+					use: env.esbuild
+						? {
+							loader: 'esbuild-loader',
+							options: {
+								loader: 'tsx',
+								target: 'es2020',
+								tsconfigRaw: resolveTSConfig(path.join(__dirname, 'tsconfig.webviews.json')),
+							},
+						}
+						: {
+							loader: 'ts-loader',
+							options: {
+								configFile: path.join(__dirname, 'tsconfig.webviews.json'),
+								experimentalWatchApi: true,
+								transpileOnly: true,
+							},
+						},
+				},
+				{
+					test: /\.css/,
+					use: ['style-loader', 'css-loader', 'postcss-loader'],
+				},
+				{
+					test: /\.svg/,
+					use: ['svg-inline-loader'],
+				},
+			],
+		},
+		resolve: {
+			extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.svg']
+		},
+		plugins: plugins,
+	};
+}
 
 /**
  * @param { 'node' | 'webworker' } target
@@ -59,21 +160,6 @@ function getExtensionConfig(target, mode, env) {
 		new CleanPlugin({ cleanOnceBeforeBuildPatterns: ['!dist/webviews/**'] }),
 		new ForkTsCheckerPlugin({
 			async: false,
-			eslint: {
-				enabled: true,
-				files: 'src/**/*.ts',
-				options: {
-					// cache: true,
-					// cacheLocation: path.join(
-					// 	__dirname,
-					// 	target === 'webworker' ? '.eslintcache.browser' : '.eslintcache',
-					// ),
-					overrideConfigFile: path.join(
-						__dirname,
-						target === 'webworker' ? '.eslintrc.browser.json' : '.eslintrc.json',
-					),
-				},
-			},
 			formatter: 'basic',
 			typescript: {
 				configFile: path.join(__dirname, target === 'webworker' ? 'tsconfig.browser.json' : 'tsconfig.json'),
@@ -133,9 +219,6 @@ function getExtensionConfig(target, mode, env) {
 								},
 						  }
 						: {
-								compress: {
-									drop_debugger: true,
-								},
 								extractComments: false,
 								parallel: true,
 								terserOptions: {
@@ -333,10 +416,6 @@ function getWebviewsConfig(mode, env) {
 								},
 						  }
 						: {
-								compress: {
-									drop_debugger: true,
-									drop_console: true,
-								},
 								extractComments: false,
 								parallel: true,
 								// @ts-ignore

@@ -19,6 +19,7 @@ export const registerBuiltinGitProvider = async (
 		apiImpl.registerGitProvider(builtInGitProvider);
 		return builtInGitProvider;
 	}
+	return undefined;
 };
 
 export class BuiltinGitProvider implements IGit, vscode.Disposable {
@@ -49,7 +50,7 @@ export class BuiltinGitProvider implements IGit, vscode.Disposable {
 			this._gitAPI = gitExtension.getAPI(1);
 		} catch (e) {
 			// The git extension will throw if a git model cannot be found, i.e. if git is not installed.
-			vscode.window.showErrorMessage('Activating the Pull Requests and Issues extension failed. Please make sure you have git installed.');
+			void vscode.window.showErrorMessage('Activating the Pull Requests and Issues extension failed. Please make sure you have git installed.');
 			throw e;
 		}
 

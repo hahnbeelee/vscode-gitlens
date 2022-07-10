@@ -3,7 +3,7 @@
 	"env": {
 		"worker": true
 	},
-	"ignorePatterns": ["src/test/**/*", "src/webviews/apps/**/*", "src/env/node/**/*"],
+	"ignorePatterns": ["src/test/**/*", "src/webviews/apps/**/*", "src/env/node/**/*", "src/mintlify/**/*"],
 	"parserOptions": {
 		"project": "tsconfig.browser.json"
 	}
