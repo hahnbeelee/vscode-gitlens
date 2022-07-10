@@ -178,20 +178,22 @@ export const getFilePath = (fileFsPath: string) => {
     return formattedFilePath;
 };
 
+// TODO - check if this works
 export const getRepoInfo = async (fileFsPath: string): Promise<{ repo: string, gitOrg: string, file: string }> => {
-    return new Promise(async (resolve, reject) => {
-        const repoDir: string | null = findParentDir.sync(fileFsPath, '.git');
-        let gitOrg: string; let repo: string;
-        if (!repoDir) {
-            return resolve({ repo: '', gitOrg: '', file: '' }); // TODO - proper error handling
-        }
 
-        const gitConfigPath: string = await locateGitConfig(repoDir);
-        const config: {[key: string]: any} = await readConfigFile(gitConfigPath);
+    const repoDir: string | null = findParentDir.sync(fileFsPath, '.git');
+    let gitOrg: string; let repo: string;
+    if (!repoDir) {
+        return { repo: '', gitOrg: '', file: '' }; // TODO - proper error handling
+    }
 
-        const file: string = getFilePath(fileFsPath);
+    const gitConfigPath: string = await locateGitConfig(repoDir);
+    const config: {[key: string]: any} = await readConfigFile(gitConfigPath);
 
-        await gitRev.long(repoDir, async (_: any, sha: any) => {
+    const file: string = getFilePath(fileFsPath);
+
+    return new Promise( (resolve, reject) => {
+        gitRev.long(repoDir, async (_: any, sha: any) => {
             let rawUri: any;
                 let configuredBranch: any;
                 let provider: BaseProvider | null = null;

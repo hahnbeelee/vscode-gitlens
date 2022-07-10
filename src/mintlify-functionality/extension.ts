@@ -1,16 +1,16 @@
 import * as vscode from 'vscode';
-import { registerAuthRoute } from './components/authentication';
-import DocCodeLensProvider from '../mintlify-functionality/codeLensProvider';
-import { linkCodeCommand, linkDirCommand, openDocsCommand, refreshLinksCommand } from './components/commands';
-import { Doc, ViewProvider } from '../mintlify-functionality/viewProvider';
-import { CodeReturned, ConnectionsTreeProvider } from '../mintlify-functionality/treeviews/connections';
-import { DocumentsTreeProvider } from '../mintlify-functionality/treeviews/documents';
+import { registerAuthRoute } from './authentication';
+import DocCodeLensProvider from './codeLensProvider';
+import { linkCodeCommand, linkDirCommand, openDocsCommand, refreshLinksCommand } from './commands';
+import { CodeReturned, ConnectionsTreeProvider } from './treeviews/connections';
+import { DocumentsTreeProvider } from './treeviews/documents';
 import { Code } from './utils/git';
 import { doRegisterBuiltinGitProvider } from './utils/git/builtInGit';
 import { GitApiImpl } from './utils/git/gitApiImpl';
 import { Repository } from './utils/git/types';
 import GlobalState from './utils/globalState';
 import { deleteDoc, deleteLink, editDocName } from './utils/links';
+import { Doc, ViewProvider } from './viewProvider';
 
 const createTreeViews = (state: GlobalState): void => {
 	const documentsTreeProvider = new DocumentsTreeProvider(state);
@@ -91,8 +91,8 @@ export async function activate(context: vscode.ExtensionContext): Promise<GitApi
 		await vscode.commands.executeCommand('mintlify.link-code', { editor: editor, scheme: 'file' });
 	});
 
-	vscode.commands.registerCommand('mintlify.prefill-doc', (doc: Doc) => {
-		viewProvider.prefillDoc(doc);
+	vscode.commands.registerCommand('mintlify.prefill-doc', async (doc: Doc) => {
+		await viewProvider.prefillDoc(doc);
 	});
 
 	vscode.commands.registerCommand('mintlify.highlight-connection', async (code: CodeReturned) => {
@@ -172,19 +172,19 @@ const init = async (context: vscode.ExtensionContext, git: GitApiImpl, globalSta
 		}
 	}));
 
-	context.subscriptions.push(git.onDidCloseRepository(async (e) => {
+	context.subscriptions.push(git.onDidCloseRepository(async () => {
 		await updateRepoInfo();
 	}));
 
-	context.subscriptions.push(git.onDidOpenRepository(async (e) => {
+	context.subscriptions.push(git.onDidOpenRepository(async () => {
 		await updateRepoInfo();
 	}));
 
-	vscode.workspace.onDidSaveTextDocument(async (e) => {
+	vscode.workspace.onDidSaveTextDocument(async () => {
 		await vscode.commands.executeCommand('mintlify.refresh-links');
 	});
 
-	vscode.workspace.onDidOpenTextDocument(async (e) => {
+	vscode.workspace.onDidOpenTextDocument(async () => {
 		await vscode.commands.executeCommand('mintlify.refresh-links');
 	});
 

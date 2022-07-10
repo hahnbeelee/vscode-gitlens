@@ -5,7 +5,7 @@ import vscode, {
 	WebviewView,
 	WebviewViewProvider
 } from 'vscode';
-import { openLogin } from '../mintlify/components/authentication';
+import { openLogin } from './authentication';
 import { API_ENDPOINT } from './utils/api';
 import { Code } from './utils/git';
 import GlobalState from './utils/globalState';
@@ -89,10 +89,11 @@ export class ViewProvider implements WebviewViewProvider {
 					case 'link-submit':
 						{
 							const { docId, code, url } = message.args;
+							// TODO - test if this works
 							await vscode.window.withProgress({
 								location: vscode.ProgressLocation.Notification,
 								title: 'Connecting documentation with code',
-							}, () => new Promise(async (resolve) => {
+							}, async () => {
 								try {
 									const response = await axios.put(`${API_ENDPOINT}/links`, { docId: docId, code: code, url: url }, {
 										params: this.globalState.getAuthParams()
@@ -105,8 +106,7 @@ export class ViewProvider implements WebviewViewProvider {
 									await vscode.window.showInformationMessage(errMessage);
 								}
 								await vscode.commands.executeCommand('mintlify.refresh-links');
-								resolve(null);
-							}));
+							});
 							break;
 						}
 					case 'refresh-code':
