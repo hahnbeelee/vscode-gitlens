@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/await-thenable */
 /* eslint-disable no-restricted-imports */
 import * as fs from 'fs';
 import * as path from 'path';
@@ -5,7 +6,7 @@ import * as findParentDir from 'find-parent-dir';
 import * as gitRev from 'git-rev-2';
 import * as ini from 'ini';
 import * as vscode from 'vscode';
-import { ViewProvider } from '../../components/viewProvider';
+import { ViewProvider } from '../../viewProvider';
 import gitProvider, { BaseProvider } from './gitProvider';
 
 const window = vscode.window;
@@ -109,7 +110,7 @@ export const getGitData = async (fileFsPath: string, viewProvider: ViewProvider,
             // Check to see if the branch has a configured remote
             configuredBranch = config[`remote "${branch}"`];
             code.branch = branch;
-            if (configuredBranch) {
+            if (configuredBranch != null) {
                 // Use the current branch's configured remote
                 remoteName = configuredBranch.remote;
                 rawUri = config[`remote "${remoteName}"`].url;
@@ -119,7 +120,7 @@ export const getGitData = async (fileFsPath: string, viewProvider: ViewProvider,
                     rawUri = config[remotes[0]].url;
                 }
             }
-            if (!rawUri) {
+            if (rawUri == null) {
                 await vscode.window.showWarningMessage(`No remote found on branch.`);
                 return;
             }
@@ -199,7 +200,7 @@ export const getRepoInfo = async (fileFsPath: string): Promise<{ repo: string, g
             await gitRev.branch(repoDir, async (_: any, branch: any) => {
                 // Check to see if the branch has a configured remote
                 configuredBranch = config[`remote "${branch}"`];
-                if (configuredBranch) {
+                if (configuredBranch != null) {
                     // Use the current branch's configured remote
                     remoteName = configuredBranch.remote;
                     rawUri = config[`remote "${remoteName}"`].url;
@@ -209,7 +210,7 @@ export const getRepoInfo = async (fileFsPath: string): Promise<{ repo: string, g
                         rawUri = config[remotes[0]].url;
                     }
                 }
-                if (!rawUri) {
+                if (rawUri == null) {
                     await vscode.window.showWarningMessage(`No remote found on branch.`);
                     return reject();
                 }
@@ -222,8 +223,6 @@ export const getRepoInfo = async (fileFsPath: string): Promise<{ repo: string, g
                     return reject();
                 }
 
-                let formattedFilePath = path.relative(repoDir, fileFsPath).replace(/\\/g, '/');
-                formattedFilePath = formattedFilePath.replace(/\s{1}/g, '%20');
                 if (provider != null) {
                     gitOrg = provider.gitUrl.organization;
                     repo = provider.gitUrl.name;

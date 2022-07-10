@@ -5,10 +5,10 @@ import vscode, {
 	WebviewView,
 	WebviewViewProvider
 } from 'vscode';
-import { API_ENDPOINT } from '../utils/api';
-import { Code } from '../utils/git';
-import GlobalState from '../utils/globalState';
-import { openLogin } from './authentication';
+import { openLogin } from '../mintlify/components/authentication';
+import { API_ENDPOINT } from './utils/api';
+import { Code } from './utils/git';
+import GlobalState from './utils/globalState';
 
 export type Doc = {
 	org: string;
@@ -44,7 +44,7 @@ export class ViewProvider implements WebviewViewProvider {
 		await vscode.commands.executeCommand('mintlify.refresh-views');
 	}
 
-	public prefillDocWithDocId = (docId: string) => {
+	public prefillDocWithDocId = (_: string) => {
 		this.show();
 		// TBD: Add doc data
 	};
@@ -88,7 +88,7 @@ export class ViewProvider implements WebviewViewProvider {
 						}
 					case 'link-submit':
 						{
-							const { userId, docId, code, subdomain, url } = message.args;
+							const { docId, code, url } = message.args;
 							await vscode.window.withProgress({
 								location: vscode.ProgressLocation.Notification,
 								title: 'Connecting documentation with code',

@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import { registerAuthRoute } from './components/authentication';
-import DocCodeLensProvider from './components/codeLensProvider';
+import DocCodeLensProvider from '../mintlify-functionality/codeLensProvider';
 import { linkCodeCommand, linkDirCommand, openDocsCommand, refreshLinksCommand } from './components/commands';
-import { Doc, ViewProvider } from './components/viewProvider';
-import { CodeReturned, ConnectionsTreeProvider } from './treeviews/connections';
-import { DocumentsTreeProvider } from './treeviews/documents';
+import { Doc, ViewProvider } from '../mintlify-functionality/viewProvider';
+import { CodeReturned, ConnectionsTreeProvider } from '../mintlify-functionality/treeviews/connections';
+import { DocumentsTreeProvider } from '../mintlify-functionality/treeviews/documents';
 import { Code } from './utils/git';
 import { doRegisterBuiltinGitProvider } from './utils/git/builtInGit';
 import { GitApiImpl } from './utils/git/gitApiImpl';

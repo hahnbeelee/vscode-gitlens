@@ -1,20 +1,20 @@
 import * as vscode from 'vscode';
-import { getHighlightedText } from '../utils';
-import { getGitData, getRepoInfo } from '../utils/git';
-import GlobalState from '../utils/globalState';
-import { getLinks } from '../utils/links';
+import { getHighlightedText } from './utils';
+import { getGitData, getRepoInfo } from './utils/git';
+import GlobalState from './utils/globalState';
+import { getLinks } from './utils/links';
 import { ViewProvider } from './viewProvider';
 
 export const linkCodeCommand = (provider: ViewProvider) => {
     return vscode.commands.registerCommand('mintlify.link-code', async (args) => {
-        const editor = args?.editor || vscode.window.activeTextEditor;
+        const editor = args?.editor ?? vscode.window.activeTextEditor;
 
         const { scheme } = args;
         if (scheme !== 'file') {
             return;
         }
 
-        if (editor) {
+        if (editor != null) {
             const fileFsPath: string = editor.document.uri.fsPath;
             const { selection, highlighted } = getHighlightedText(editor);
             if (highlighted) {
@@ -59,7 +59,7 @@ export const linkDirCommand = (provider: ViewProvider) => {
 export const refreshLinksCommand = (globalState: GlobalState) => {
     return vscode.commands.registerCommand('mintlify.refresh-links', async (args) => {
         const window = vscode.window;
-        const editor = args?.editor || window.activeTextEditor;
+        const editor = args?.editor ?? window.activeTextEditor;
         const fileFsPath: string = editor.document.uri.fsPath;
         const { gitOrg, repo } = await getRepoInfo(fileFsPath);
         globalState.setGitOrg(gitOrg);

@@ -2,9 +2,9 @@
 import * as path from 'path';
 import axios from 'axios';
 import * as vscode from 'vscode';
-import { Doc } from '../components/viewProvider';
 import { API_ENDPOINT } from '../utils/api';
 import GlobalState from '../utils/globalState';
+import { Doc } from '../viewProvider';
 
 type Group = {
   _id: string;
@@ -29,7 +29,7 @@ export class DocumentsTreeProvider implements vscode.TreeDataProvider<GroupOptio
   }
 
   async getChildren(groupElement: GroupOption): Promise<any[]> {
-    if (groupElement) {
+    if (groupElement != null) {
       const { data: { docs } } = await axios.get(`${API_ENDPOINT}/docs/method/${groupElement.group._id}`, {
         params: this.state.getAuthParams()
       });
