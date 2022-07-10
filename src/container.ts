@@ -12,7 +12,6 @@ import { FileAnnotationController } from './annotations/fileAnnotationController
 import { LineAnnotationController } from './annotations/lineAnnotationController';
 import { ActionRunners } from './api/actionRunners';
 import { resetAvatarCache } from './avatars';
-import { GitCodeLensController } from './codelens/codeLensController';
 import type { ToggleFileAnnotationCommandArgs } from './commands';
 import {
 	AnnotationsToggleMode,
@@ -178,7 +177,6 @@ export class Container {
 		context.subscriptions.push((this._lineAnnotationController = new LineAnnotationController(this)));
 		context.subscriptions.push((this._lineHoverController = new LineHoverController(this)));
 		context.subscriptions.push((this._statusBarController = new StatusBarController(this)));
-		context.subscriptions.push((this._codeLensController = new GitCodeLensController(this)));
 
 		context.subscriptions.push((this._settingsWebview = new SettingsWebview(this)));
 		context.subscriptions.push((this._timelineWebview = new TimelineWebview(this)));
@@ -273,11 +271,6 @@ export class Container {
 		}
 
 		return this._autolinks;
-	}
-
-	private _codeLensController: GitCodeLensController;
-	get codeLens() {
-		return this._codeLensController;
 	}
 
 	private _branchesView: BranchesView | undefined;

@@ -134,7 +134,6 @@
 		"onCommand:gitlens.toggleFileChanges",
 		"onCommand:gitlens.toggleFileChangesOnly",
 		"onCommand:gitlens.toggleLineBlame",
-		"onCommand:gitlens.toggleCodeLens",
 		"onCommand:gitlens.gitCommands",
 		"onCommand:gitlens.switchMode",
 		"onCommand:gitlens.toggleReviewMode",
@@ -267,204 +266,6 @@
 				}
 			},
 			{
-				"id": "git-code-lens",
-				"title": "Git CodeLens",
-				"order": 11,
-				"properties": {
-					"gitlens.codeLens.enabled": {
-						"type": "boolean",
-						"default": true,
-						"markdownDescription": "Specifies whether to provide any Git CodeLens, by default. Use the `Toggle Git CodeLens` command (`gitlens.toggleCodeLens`) to toggle the Git CodeLens on and off for the current window",
-						"scope": "window",
-						"order": 10
-					},
-					"gitlens.codeLens.authors.enabled": {
-						"type": "boolean",
-						"default": true,
-						"markdownDescription": "Specifies whether to provide an _authors_ CodeLens, showing number of authors of the file or code block and the most prominent author (if there is more than one)",
-						"scope": "window",
-						"order": 20
-					},
-					"gitlens.codeLens.authors.command": {
-						"type": [
-							"boolean",
-							"string"
-						],
-						"enum": [
-							false,
-							"gitlens.toggleFileBlame",
-							"gitlens.toggleFileHeatmap",
-							"gitlens.toggleFileChanges",
-							"gitlens.toggleFileChangesOnly",
-							"gitlens.diffWithPrevious",
-							"gitlens.revealCommitInView",
-							"gitlens.showCommitsInView",
-							"gitlens.showQuickCommitDetails",
-							"gitlens.showQuickCommitFileDetails",
-							"gitlens.showQuickFileHistory",
-							"gitlens.showQuickRepoHistory",
-							"gitlens.openCommitOnRemote",
-							"gitlens.copyRemoteCommitUrl",
-							"gitlens.openFileOnRemote",
-							"gitlens.copyRemoteFileUrl"
-						],
-						"enumDescriptions": [
-							"Disables click interaction",
-							"Toggles file blame",
-							"Toggles file heatmap",
-							"Toggles file changes since before the commit",
-							"Toggles file changes from the commit",
-							"Compares the current committed file with the previous commit",
-							"Reveals the commit in the Side Bar",
-							"Searches for commits within the range",
-							"Shows a commit details quick pick menu",
-							"Shows a commit file details quick pick menu",
-							"Shows a file history quick pick menu",
-							"Shows a branch history quick pick menu",
-							"Opens the commit on the remote service (when available)",
-							"Copies the remote commit url to the clipboard (when available)",
-							"Opens the file revision on the remote service (when available)",
-							"Copies the remote file url to the clipboard (when available)"
-						],
-						"default": "gitlens.toggleFileBlame",
-						"markdownDescription": "Specifies the command to be executed when an _authors_ CodeLens is clicked",
-						"scope": "window",
-						"order": 21
-					},
-					"gitlens.codeLens.recentChange.enabled": {
-						"type": "boolean",
-						"default": true,
-						"markdownDescription": "Specifies whether to provide a _recent change_ CodeLens, showing the author and date of the most recent commit for the file or code block",
-						"scope": "window",
-						"order": 30
-					},
-					"gitlens.codeLens.recentChange.command": {
-						"type": [
-							"boolean",
-							"string"
-						],
-						"enum": [
-							false,
-							"gitlens.toggleFileBlame",
-							"gitlens.toggleFileHeatmap",
-							"gitlens.toggleFileChanges",
-							"gitlens.toggleFileChangesOnly",
-							"gitlens.diffWithPrevious",
-							"gitlens.revealCommitInView",
-							"gitlens.showCommitsInView",
-							"gitlens.showQuickCommitDetails",
-							"gitlens.showQuickCommitFileDetails",
-							"gitlens.showQuickFileHistory",
-							"gitlens.showQuickRepoHistory",
-							"gitlens.openCommitOnRemote",
-							"gitlens.copyRemoteCommitUrl",
-							"gitlens.openFileOnRemote",
-							"gitlens.copyRemoteFileUrl"
-						],
-						"enumDescriptions": [
-							"Disables click interaction",
-							"Toggles file blame",
-							"Toggles file heatmap",
-							"Toggles file changes since before the commit",
-							"Toggles file changes from the commit",
-							"Compares the current committed file with the previous commit",
-							"Reveals the commit in the Side Bar",
-							"Searches for the commit",
-							"Shows a commit details quick pick menu",
-							"Shows a commit file details quick pick menu",
-							"Shows a file history quick pick menu",
-							"Shows a branch history quick pick menu",
-							"Opens the commit on the remote service (when available)",
-							"Copies the remote commit url to the clipboard (when available)",
-							"Opens the file revision on the remote service (when available)",
-							"Copies the remote file url to the clipboard (when available)"
-						],
-						"default": "gitlens.showQuickCommitFileDetails",
-						"markdownDescription": "Specifies the command to be executed when a _recent change_ CodeLens is clicked",
-						"scope": "window",
-						"order": 31
-					},
-					"gitlens.codeLens.scopes": {
-						"type": "array",
-						"default": [
-							"document",
-							"containers"
-						],
-						"items": {
-							"type": "string",
-							"enum": [
-								"document",
-								"containers",
-								"blocks"
-							],
-							"enumDescriptions": [
-								"Adds CodeLens at the top of the document",
-								"Adds CodeLens at the start of container-like symbols (modules, classes, interfaces, etc)",
-								"Adds CodeLens at the start of block-like symbols (functions, methods, etc) lines"
-							]
-						},
-						"minItems": 0,
-						"maxItems": 3,
-						"uniqueItems": true,
-						"markdownDescription": "Specifies where Git CodeLens will be shown in the document",
-						"scope": "language-overridable",
-						"order": 40
-					},
-					"gitlens.codeLens.symbolScopes": {
-						"type": "array",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true,
-						"markdownDescription": "Specifies a set of document symbols where Git CodeLens will or will not be shown in the document. Prefix with `!` to avoid providing a Git CodeLens for the symbol. Must be a member of `SymbolKind`",
-						"scope": "language-overridable",
-						"order": 50
-					},
-					"gitlens.codeLens.includeSingleLineSymbols": {
-						"type": "boolean",
-						"default": false,
-						"markdownDescription": "Specifies whether to provide any Git CodeLens on symbols that span only a single line",
-						"scope": "window",
-						"order": 60
-					},
-					"gitlens.strings.codeLens.unsavedChanges.recentChangeAndAuthors": {
-						"type": "string",
-						"default": "$(ellipsis)",
-						"markdownDescription": "Specifies the string to be shown in place of both the _recent change_ and _authors_ CodeLens when there are unsaved changes",
-						"scope": "window",
-						"order": 70
-					},
-					"gitlens.strings.codeLens.unsavedChanges.recentChangeOnly": {
-						"type": "string",
-						"default": "$(ellipsis)",
-						"markdownDescription": "Specifies the string to be shown in place of the _recent change_ CodeLens when there are unsaved changes",
-						"scope": "window",
-						"order": 71
-					},
-					"gitlens.strings.codeLens.unsavedChanges.authorsOnly": {
-						"type": "string",
-						"default": "$(ellipsis)",
-						"markdownDescription": "Specifies the string to be shown in place of the _authors_ CodeLens when there are unsaved changes",
-						"scope": "window",
-						"order": 72
-					},
-					"gitlens.codeLens.dateFormat": {
-						"type": [
-							"string",
-							"null"
-						],
-						"default": null,
-						"markdownDescription": "Specifies how to format absolute dates in the Git CodeLens. See the [Moment.js docs](https://momentjs.com/docs/#/displaying/format/) for supported formats",
-						"scope": "window",
-						"order": 73
-					},
-					"gitlens.codeLens.scopesByLanguage": {
-						"deprecationMessage": "Deprecated. Use per-language `gitlens.codeLens.scopes` and `gitlens.codeLens.symbolScopes` settings instead",
-						"markdownDeprecationMessage": "Deprecated. Use the per-language `#gitlens.codeLens.scopes#` and `#gitlens.codeLens.symbolScopes#` settings instead"
-					}
-				}
-			},
-			{
 				"id": "status-bar-blame",
 				"title": "Status Bar Blame",
 				"order": 12,
@@ -513,7 +314,6 @@
 							"gitlens.toggleFileHeatmap",
 							"gitlens.toggleFileChanges",
 							"gitlens.toggleFileChangesOnly",
-							"gitlens.toggleCodeLens",
 							"gitlens.diffWithPrevious",
 							"gitlens.diffWithWorking",
 							"gitlens.revealCommitInView",
@@ -532,7 +332,6 @@
 							"Toggles file heatmap",
 							"Toggles file changes since before the commit",
 							"Toggles file changes from the commit",
-							"Toggles Git CodeLens",
 							"Compares the current line commit with the previous",
 							"Compares the current line commit with the working tree",
 							"Reveals the commit in the Side Bar",
@@ -4128,11 +3927,6 @@
 				"category": "GitLens"
 			},
 			{
-				"command": "gitlens.toggleCodeLens",
-				"title": "Toggle Git CodeLens",
-				"category": "GitLens"
-			},
-			{
 				"command": "gitlens.gitCommands",
 				"title": "Git Command Palette",
 				"category": "GitLens"
@@ -6284,10 +6078,6 @@
 				{
 					"command": "gitlens.toggleLineBlame",
 					"when": "!gitlens:disabled"
-				},
-				{
-					"command": "gitlens.toggleCodeLens",
-					"when": "!gitlens:disabled && !gitlens:disabledToggleCodeLens"
 				},
 				{
 					"command": "gitlens.gitCommands",
@@ -10478,17 +10268,6 @@
 				"key": "ctrl+shift+g b",
 				"mac": "cmd+alt+g b",
 				"when": "config.gitlens.keymap == chorded && editorTextFocus && gitlens:activeFileStatus =~ /blameable/"
-			},
-			{
-				"command": "gitlens.toggleCodeLens",
-				"key": "shift+alt+b",
-				"when": "config.gitlens.keymap == alternate && editorTextFocus && !gitlens:disabled && !gitlens:disabledToggleCodeLens"
-			},
-			{
-				"command": "gitlens.toggleCodeLens",
-				"key": "ctrl+shift+g shift+b",
-				"mac": "cmd+alt+g shift+b",
-				"when": "config.gitlens.keymap == chorded && editorTextFocus && !gitlens:disabled && !gitlens:disabledToggleCodeLens"
 			},
 			{
 				"command": "gitlens.showQuickFileHistory",
