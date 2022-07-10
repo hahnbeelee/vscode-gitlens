@@ -48,6 +48,10 @@
 		"multi-root ready"
 	],
 	"activationEvents": [
+		"onView:primary",
+		"onCommand:mintlify.link-code",
+		"onCommand:mintlify.link-dir",
+		"onCommand:mintlify.prefill-doc",
 		"onAuthenticationRequest:gitlens-gitkraken",
 		"onCustomEditor:gitlens.rebase",
 		"onFileSystem:gitlens",
@@ -3613,6 +3617,62 @@
 			}
 		],
 		"commands": [
+			{
+				"command": "mintlify.link-code",
+				"title": "Link Code to Documentation"
+			},
+			{
+			"command": "mintlify.link-dir",
+			"title": "Link folder/file to documentation"
+			},
+			{
+			"command": "mintlify.login",
+			"title": "Login to Mintlify"
+			},
+			{
+			"command": "mintlify.logout",
+			"title": "Logout of Mintlify"
+			},
+			{
+			"command": "mintlify.refresh-links",
+			"title": "Refresh links"
+			},
+			{
+			"command": "mintlify.prefill-doc",
+			"title": "Prefill document"
+			},
+			{
+			"command": "mintlify.hightlight-connection",
+			"title": "Highlight connection"
+			},
+			{
+			"command": "mintlify.delete-document",
+			"title": "Delete Document",
+			"icon": {
+				"light": "assets/icons/delete.svg",
+				"dark": "assets/icons/delete-dark.svg"
+			}
+			},
+			{
+			"command": "mintlify.rename-document",
+			"title": "Rename Document",
+			"icon": {
+				"light": "assets/icons/edit.svg",
+				"dark": "assets/icons/edit-dark.svg"
+			}
+			},
+			{
+			"command": "mintlify.delete-connection",
+			"title": "Delete Connection",
+			"icon": {
+				"light": "assets/icons/delete.svg",
+				"dark": "assets/icons/delete-dark.svg"
+			}
+			},
+			{
+			"command": "mintlify.refresh-views",
+			"title": "Refresh views"
+			},
 			{
 				"command": "gitlens.plus.learn",
 				"title": "Learn about GitLens+ Features",
@@ -7743,6 +7803,10 @@
 			],
 			"explorer/context": [
 				{
+					"command": "mintlify.link-dir",
+					"group": "mintlify"
+				},
+				{
 					"submenu": "gitlens/explorer/changes",
 					"when": "!explorerResourceIsRoot && !explorerResourceIsFolder && gitlens:enabled && config.gitlens.menus.explorer.compare",
 					"group": "4_gitlens@0"
@@ -7891,6 +7955,14 @@
 				}
 			],
 			"view/title": [
+				{
+					"command": "mintlify.login",
+					"when": "view == create && !mintlify.isLoggedIn"
+				},
+				{
+					"command": "mintlify.logout",
+					"when": "view == create && mintlify.isLoggedIn"
+				},
 				{
 					"command": "gitlens.views.switchToAnotherBranch",
 					"when": "!gitlens:readonly && !gitlens:untrusted && !gitlens:hasVirtualFolders && view =~ /^gitlens\\.views\\.branches/",
@@ -8583,6 +8655,21 @@
 				}
 			],
 			"view/item/context": [
+				{
+					"command": "mintlify.rename-document",
+					"when": "view == documents && viewItem == document",
+					"group": "inline"
+				},
+				{
+					"command": "mintlify.delete-document",
+					"when": "view == documents && viewItem == document",
+					"group": "inline"
+				},
+				{
+					"command": "mintlify.delete-connection",
+					"when": "view == connections && viewItem == connection",
+					"group": "inline"
+				},
 				{
 					"command": "gitlens.views.switchToAnotherBranch",
 					"when": "!gitlens:readonly && !gitlens:untrusted && !gitlens:hasVirtualFolders && viewItem =~ /gitlens:branches\\b/",
@@ -10634,6 +10721,11 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
+					"id": "primary",
+					"title": "Documents",
+					"icon": "assets/icon.png"
+				},
+				{
 					"id": "gitlens",
 					"title": "GitLens",
 					"icon": "images/gitlens-activitybar.svg"
@@ -10699,6 +10791,21 @@
 			}
 		],
 		"views": {
+			"primary": [
+				{
+				  "type": "webview",
+				  "id": "create",
+				  "name": "Create connection"
+				},
+				{
+				  "id": "documents",
+				  "name": "Documents"
+				},
+				{
+				  "id": "connections",
+				  "name": "Connections"
+				}
+			],
 			"gitlens": [
 				{
 					"type": "webview",

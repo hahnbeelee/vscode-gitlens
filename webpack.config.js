@@ -41,7 +41,7 @@ module.exports =
 
 		return [
 			getExtensionConfig('node', mode, env),
-			getExtensionConfig('webworker', mode, env),
+			// getExtensionConfig('webworker', mode, env), Todo - add back in to support web
 			getWebviewsConfig(mode, env),
 			getMintlifyWebviewConfig(mode, env, {
 				'webviewActivityBar': './src/mintlify/webviews/activityBarWebview/index.ts'
@@ -167,7 +167,7 @@ function getExtensionConfig(target, mode, env) {
 		}),
 	];
 
-	if (env.analyzeDeps) {
+	if (env?.analyzeDeps) {
 		plugins.push(
 			new CircularDependencyPlugin({
 				cwd: __dirname,
@@ -183,7 +183,7 @@ function getExtensionConfig(target, mode, env) {
 		);
 	}
 
-	if (env.analyzeBundle) {
+	if (env?.analyzeBundle) {
 		plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 'auto' }));
 	}
 
@@ -204,7 +204,7 @@ function getExtensionConfig(target, mode, env) {
 		optimization: {
 			minimizer: [
 				new TerserPlugin(
-					env.esbuild
+					env?.esbuild
 						? {
 								minify: TerserPlugin.esbuildMinify,
 								terserOptions: {
@@ -251,7 +251,7 @@ function getExtensionConfig(target, mode, env) {
 					exclude: /\.d\.ts$/,
 					include: path.join(__dirname, 'src'),
 					test: /\.tsx?$/,
-					use: env.esbuild
+					use: env?.esbuild
 						? {
 								loader: 'esbuild-loader',
 								options: {
@@ -400,7 +400,7 @@ function getWebviewsConfig(mode, env) {
 		optimization: {
 			minimizer: [
 				new TerserPlugin(
-					env.esbuild
+					env?.esbuild
 						? {
 								minify: TerserPlugin.esbuildMinify,
 								terserOptions: {
@@ -439,7 +439,7 @@ function getWebviewsConfig(mode, env) {
 					exclude: /\.d\.ts$/,
 					include: path.join(__dirname, 'src'),
 					test: /\.tsx?$/,
-					use: env.esbuild
+					use: env?.esbuild
 						? {
 								loader: 'esbuild-loader',
 								options: {

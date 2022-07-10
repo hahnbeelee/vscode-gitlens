@@ -5,7 +5,7 @@ import '../styles/index.css';
 import '../styles/vscode.css';
 
 export function main() {
-  const rootElement = document.getElementById('root') as HTMLElement;
+  const rootElement = document.getElementById('root') ;
   const root = createRoot(rootElement);
   root.render(<React.StrictMode>
     <App />

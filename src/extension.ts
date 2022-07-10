@@ -11,6 +11,7 @@ import { GitUri } from './git/gitUri';
 import { GitBranch, GitCommit } from './git/models';
 import { Logger, LogLevel } from './logger';
 import { Messages } from './messages';
+import { mintlifyActivate } from './mintlify-functionality/extension';
 import { registerPartnerActionRunners } from './partners';
 import { StorageKeys, SyncedStorageKeys } from './storage';
 import { executeCommand, registerCommands } from './system/command';
@@ -148,6 +149,8 @@ export async function activate(context: ExtensionContext): Promise<GitLensApi | 
 			cfg.mode.active ? `, mode: ${cfg.mode.active}` : ''
 		}`,
 	});
+
+	await mintlifyActivate(context);
 
 	const api = new Api(container);
 	return Promise.resolve(api);
