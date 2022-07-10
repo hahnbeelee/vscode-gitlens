@@ -101,7 +101,6 @@
 		"onCommand:gitlens.showSearchAndCompareView",
 		"onCommand:gitlens.showStashesView",
 		"onCommand:gitlens.showTagsView",
-		"onCommand:gitlens.showTimelineView",
 		"onCommand:gitlens.showWorktreesView",
 		"onCommand:gitlens.compareWith",
 		"onCommand:gitlens.compareHeadWith",
@@ -3601,15 +3600,6 @@
 				"icon": "$(gear)"
 			},
 			{
-				"command": "gitlens.showTimelinePage",
-				"title": "Open Visual File History of Active File",
-				"category": "GitLens",
-				"icon": {
-					"dark": "images/dark/icon-history.svg",
-					"light": "images/light/icon-history.svg"
-				}
-			},
-			{
 				"command": "gitlens.refreshTimelinePage",
 				"title": "Refresh",
 				"category": "GitLens",
@@ -3673,11 +3663,6 @@
 			{
 				"command": "gitlens.showTagsView",
 				"title": "Show Tags View",
-				"category": "GitLens"
-			},
-			{
-				"command": "gitlens.showTimelineView",
-				"title": "Show Visual File History View",
 				"category": "GitLens"
 			},
 			{
@@ -5888,10 +5873,6 @@
 					"when": "false"
 				},
 				{
-					"command": "gitlens.showTimelinePage",
-					"when": "gitlens:enabled && editorFocus"
-				},
-				{
 					"command": "gitlens.refreshTimelinePage",
 					"when": "false"
 				},
@@ -5937,10 +5918,6 @@
 				},
 				{
 					"command": "gitlens.showTagsView",
-					"when": "gitlens:enabled"
-				},
-				{
-					"command": "gitlens.showTimelineView",
 					"when": "gitlens:enabled"
 				},
 				{
@@ -10509,13 +10486,6 @@
 					"title": "GitLens",
 					"icon": "images/gitlens-activitybar.svg"
 				}
-			],
-			"panel": [
-				{
-					"id": "gitlensPanel",
-					"title": "GitLens",
-					"icon": "images/views/history.svg"
-				}
 			]
 		},
 		"viewsWelcome": [
@@ -10593,17 +10563,6 @@
 					"when": "!gitlens:disabled && config.gitlens.plusFeatures.enabled",
 					"contextualTitle": "GitLens",
 					"icon": "images/gitlens-activitybar.svg",
-					"visibility": "visible"
-				}
-			],
-			"gitlensPanel": [
-				{
-					"type": "webview",
-					"id": "gitlens.views.timeline",
-					"name": "Visual File History",
-					"when": "!gitlens:disabled && config.gitlens.plusFeatures.enabled",
-					"contextualTitle": "GitLens",
-					"icon": "images/views/history.svg",
 					"visibility": "visible"
 				}
 			],

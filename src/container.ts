@@ -31,8 +31,6 @@ import { Logger } from './logger';
 import { SubscriptionAuthenticationProvider } from './plus/subscription/authenticationProvider';
 import { ServerConnection } from './plus/subscription/serverConnection';
 import { SubscriptionService } from './plus/subscription/subscriptionService';
-import { TimelineWebview } from './plus/webviews/timeline/timelineWebview';
-import { TimelineWebviewView } from './plus/webviews/timeline/timelineWebviewView';
 import { StatusBarController } from './statusbar/statusBarController';
 import { Storage } from './storage';
 import { executeCommand } from './system/command';
@@ -179,7 +177,6 @@ export class Container {
 		context.subscriptions.push((this._statusBarController = new StatusBarController(this)));
 
 		context.subscriptions.push((this._settingsWebview = new SettingsWebview(this)));
-		context.subscriptions.push((this._timelineWebview = new TimelineWebview(this)));
 		context.subscriptions.push((this._welcomeWebview = new WelcomeWebview(this)));
 		context.subscriptions.push((this._rebaseEditor = new RebaseEditorProvider(this)));
 
@@ -198,7 +195,6 @@ export class Container {
 		context.subscriptions.push((this._searchAndCompareView = new SearchAndCompareView(this)));
 
 		context.subscriptions.push((this._homeView = new HomeWebviewView(this)));
-		context.subscriptions.push((this._timelineView = new TimelineWebviewView(this)));
 
 		if (config.terminalLinks.enabled) {
 			context.subscriptions.push((this._terminalLinks = new GitTerminalLinkProvider(this)));
@@ -486,16 +482,6 @@ export class Container {
 		}
 
 		return this._tagsView;
-	}
-
-	private _timelineView: TimelineWebviewView;
-	get timelineView() {
-		return this._timelineView;
-	}
-
-	private _timelineWebview: TimelineWebview;
-	get timelineWebview() {
-		return this._timelineWebview;
 	}
 
 	private _tracker: GitDocumentTracker;
