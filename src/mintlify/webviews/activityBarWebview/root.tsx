@@ -6,8 +6,10 @@ import '../styles/vscode.css';
 
 export function main() {
   const rootElement = document.getElementById('root') ;
-  const root = createRoot(rootElement);
-  root.render(<React.StrictMode>
-    <App />
-  </React.StrictMode>);
+  if (rootElement != null) {
+    const root = createRoot(rootElement);
+    root.render(<React.StrictMode>
+      <App />
+    </React.StrictMode>);
+  }
 }
