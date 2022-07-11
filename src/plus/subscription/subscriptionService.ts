@@ -8,11 +8,7 @@ import {
 	env,
 	Event,
 	EventEmitter,
-	MarkdownString,
 	MessageItem,
-	StatusBarAlignment,
-	StatusBarItem,
-	ThemeColor,
 	Uri,
 	window,
 } from 'vscode';
@@ -70,7 +66,6 @@ export class SubscriptionService implements Disposable {
 
 	private _disposable: Disposable;
 	private _subscription!: Subscription;
-	private _statusBarSubscription: StatusBarItem | undefined;
 
 	constructor(private readonly container: Container) {
 		this._disposable = Disposable.from(
@@ -86,7 +81,6 @@ export class SubscriptionService implements Disposable {
 	}
 
 	dispose(): void {
-		this._statusBarSubscription?.dispose();
 
 		this._disposable.dispose();
 	}
@@ -751,7 +745,6 @@ export class SubscriptionService implements Disposable {
 	}
 
 	private updateContext(): void {
-		void this.updateStatusBar();
 
 		queueMicrotask(async () => {
 			const { allowed, subscription } = await this.container.git.access();
@@ -771,63 +764,6 @@ export class SubscriptionService implements Disposable {
 
 		void setContext(ContextKeys.Plus, actual.id != SubscriptionPlanId.Free ? actual.id : undefined);
 		void setContext(ContextKeys.PlusState, state);
-	}
-
-	private updateStatusBar(): void {
-		const {
-			account,
-			plan: { effective },
-		} = this._subscription;
-
-		if (effective.id === SubscriptionPlanId.Free) {
-			this._statusBarSubscription?.dispose();
-			this._statusBarSubscription = undefined;
-			return;
-		}
-
-		const trial = isSubscriptionTrial(this._subscription);
-		if (!trial && account?.verified !== false) {
-			this._statusBarSubscription?.dispose();
-			this._statusBarSubscription = undefined;
-			return;
-		}
-
-		if (this._statusBarSubscription == null) {
-			this._statusBarSubscription = window.createStatusBarItem(
-				'gitlens.plus.subscription',
-				StatusBarAlignment.Left,
-				1,
-			);
-		}
-
-		this._statusBarSubscription.name = 'GitLens+ Subscription';
-		this._statusBarSubscription.command = Commands.ShowHomeView;
-
-		if (account?.verified === false) {
-			this._statusBarSubscription.text = `$(warning) ${effective.name} (Unverified)`;
-			this._statusBarSubscription.backgroundColor = new ThemeColor('statusBarItem.warningBackground');
-			this._statusBarSubscription.tooltip = new MarkdownString(
-				trial
-					? `**Please verify your email**\n\nBefore you can start your **${effective.name}** trial, please verify the email for the account you created.\n\nClick for details`
-					: `**Please verify your email**\n\nBefore you can use GitLens+ features, please verify the email for the account you created.\n\nClick for details`,
-				true,
-			);
-		} else {
-			const remaining = getSubscriptionTimeRemaining(this._subscription, 'days');
-
-			this._statusBarSubscription.text = `${effective.name} (Trial)`;
-			this._statusBarSubscription.tooltip = new MarkdownString(
-				`You are currently trialing **${
-					effective.name
-				}**, which gives you access to GitLens+ features on both public and private repos. You have ${pluralize(
-					'day',
-					remaining ?? 0,
-				)} remaining in your trial.\n\nClick for details`,
-				true,
-			);
-		}
-
-		this._statusBarSubscription.show();
 	}
 }
 

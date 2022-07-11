@@ -99,10 +99,6 @@ export interface Config {
 	menus: boolean | MenuConfig;
 	mode: {
 		active: string;
-		statusBar: {
-			enabled: boolean;
-			alignment: 'left' | 'right';
-		};
 	};
 	modes: Record<string, ModeConfig> | null;
 	outputLevel: OutputLevel;
@@ -122,18 +118,6 @@ export interface Config {
 	sortBranchesBy: BranchSorting;
 	sortContributorsBy: ContributorSorting;
 	sortTagsBy: TagSorting;
-	statusBar: {
-		alignment: 'left' | 'right';
-		command: StatusBarCommand;
-		dateFormat: DateTimeFormat | string | null;
-		enabled: boolean;
-		format: string;
-		reduceFlicker: boolean;
-		pullRequests: {
-			enabled: boolean;
-		};
-		tooltipFormat: string;
-	};
 	strings: {
 		codeLens: {
 			unsavedChanges: {
@@ -283,26 +267,6 @@ export const enum OutputLevel {
 	Debug = 'debug',
 }
 
-export const enum StatusBarCommand {
-	CopyRemoteCommitUrl = 'gitlens.copyRemoteCommitUrl',
-	CopyRemoteFileUrl = 'gitlens.copyRemoteFileUrl',
-	DiffWithPrevious = 'gitlens.diffWithPrevious',
-	DiffWithWorking = 'gitlens.diffWithWorking',
-	OpenCommitOnRemote = 'gitlens.openCommitOnRemote',
-	OpenFileOnRemote = 'gitlens.openFileOnRemote',
-	RevealCommitInView = 'gitlens.revealCommitInView',
-	ShowCommitsInView = 'gitlens.showCommitsInView',
-	ShowQuickCommitDetails = 'gitlens.showQuickCommitDetails',
-	ShowQuickCommitFileDetails = 'gitlens.showQuickCommitFileDetails',
-	ShowQuickCurrentBranchHistory = 'gitlens.showQuickRepoHistory',
-	ShowQuickFileHistory = 'gitlens.showQuickFileHistory',
-	ToggleCodeLens = 'gitlens.toggleCodeLens',
-	ToggleFileBlame = 'gitlens.toggleFileBlame',
-	ToggleFileChanges = 'gitlens.toggleFileChanges',
-	ToggleFileChangesOnly = 'gitlens.toggleFileChangesOnly',
-	ToggleFileHeatmap = 'gitlens.toggleFileHeatmap',
-}
-
 export const enum TagSorting {
 	DateDesc = 'date:desc',
 	DateAsc = 'date:asc',
@@ -449,13 +413,11 @@ export interface MenuConfig {
 
 export interface ModeConfig {
 	name: string;
-	statusBarItemName?: string;
 	description?: string;
 	annotations?: 'blame' | 'changes' | 'heatmap';
 	codeLens?: boolean;
 	currentLine?: boolean;
 	hovers?: boolean;
-	statusBar?: boolean;
 }
 
 export type RemotesConfig =

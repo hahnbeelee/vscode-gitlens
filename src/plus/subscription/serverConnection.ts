@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Disposable, env, EventEmitter, StatusBarAlignment, StatusBarItem, Uri, UriHandler, window } from 'vscode';
+import { Disposable, env, EventEmitter, Uri, UriHandler, window } from 'vscode';
 import { fetch, Response } from '@env/fetch';
 import { Container } from '../../container';
 import { Logger } from '../../logger';
@@ -16,7 +16,6 @@ export class ServerConnection implements Disposable {
 	private _deferredCodeExchanges = new Map<string, DeferredEvent<string>>();
 	private _disposable: Disposable;
 	private _pendingStates = new Map<string, string[]>();
-	private _statusBarItem: StatusBarItem | undefined;
 	private _uriHandler = new UriEventHandler();
 
 	constructor(private readonly container: Container) {
@@ -82,7 +81,6 @@ export class ServerConnection implements Disposable {
 
 	@debug()
 	public async login(scopes: string[], scopeKey: string): Promise<string> {
-		this.updateStatusBarItem(true);
 
 		// Include a state parameter here to prevent CSRF attacks
 		const gkstate = uuid();
@@ -117,7 +115,6 @@ export class ServerConnection implements Disposable {
 			this._pendingStates.delete(scopeKey);
 			deferredCodeExchange?.cancel();
 			this._deferredCodeExchanges.delete(scopeKey);
-			this.updateStatusBarItem(false);
 		});
 	}
 
@@ -147,20 +144,6 @@ export class ServerConnection implements Disposable {
 				resolve(token);
 			}
 		};
-	}
-
-	private updateStatusBarItem(signingIn?: boolean) {
-		if (signingIn && this._statusBarItem == null) {
-			this._statusBarItem = window.createStatusBarItem('gitlens.plus.signIn', StatusBarAlignment.Left);
-			this._statusBarItem.name = 'GitLens+ Sign in';
-			this._statusBarItem.text = 'Signing into GitLens+...';
-			this._statusBarItem.show();
-		}
-
-		if (!signingIn && this._statusBarItem != null) {
-			this._statusBarItem.dispose();
-			this._statusBarItem = undefined;
-		}
 	}
 }
 

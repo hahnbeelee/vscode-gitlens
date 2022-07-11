@@ -164,9 +164,6 @@ export abstract class WebviewWithConfigBase<State> extends WebviewBase<State> {
 								case configuration.name('currentLine.format'):
 									includePullRequest = this.container.config.currentLine.pullRequests.enabled;
 									break;
-								case configuration.name('statusBar.format'):
-									includePullRequest = this.container.config.statusBar.pullRequests.enabled;
-									break;
 							}
 
 							let pr: PullRequest | undefined;

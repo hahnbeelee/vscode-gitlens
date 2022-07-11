@@ -33,7 +33,6 @@ import { ServerConnection } from './plus/subscription/serverConnection';
 import { SubscriptionService } from './plus/subscription/subscriptionService';
 import { TimelineWebview } from './plus/webviews/timeline/timelineWebview';
 import { TimelineWebviewView } from './plus/webviews/timeline/timelineWebviewView';
-import { StatusBarController } from './statusbar/statusBarController';
 import { Storage } from './storage';
 import { executeCommand } from './system/command';
 import { log } from './system/decorators/log';
@@ -176,7 +175,6 @@ export class Container {
 		context.subscriptions.push((this._fileAnnotationController = new FileAnnotationController(this)));
 		context.subscriptions.push((this._lineAnnotationController = new LineAnnotationController(this)));
 		context.subscriptions.push((this._lineHoverController = new LineHoverController(this)));
-		context.subscriptions.push((this._statusBarController = new StatusBarController(this)));
 
 		context.subscriptions.push((this._settingsWebview = new SettingsWebview(this)));
 		context.subscriptions.push((this._timelineWebview = new TimelineWebview(this)));
@@ -469,11 +467,6 @@ export class Container {
 		return this._stashesView;
 	}
 
-	private _statusBarController: StatusBarController;
-	get statusBar() {
-		return this._statusBarController;
-	}
-
 	private readonly _storage: Storage;
 	get storage(): Storage {
 		return this._storage;
@@ -580,10 +573,6 @@ export class Container {
 			config.hovers.enabled = mode.hovers;
 		}
 
-		if (mode.statusBar != null) {
-			config.statusBar.enabled = mode.statusBar;
-		}
-
 		return config;
 	}
 
@@ -598,7 +587,6 @@ export class Container {
 				`gitlens.${configuration.name('currentLine')}`,
 				`gitlens.${configuration.name('heatmap.toggleMode')}`,
 				`gitlens.${configuration.name('hovers')}`,
-				`gitlens.${configuration.name('statusBar')}`,
 			];
 		}
 
