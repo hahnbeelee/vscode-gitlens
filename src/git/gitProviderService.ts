@@ -23,7 +23,6 @@ import { setContext } from '../context';
 import { AccessDeniedError, ProviderNotFoundError } from '../errors';
 import type { FeatureAccess, Features, PlusFeatures } from '../features';
 import { Logger } from '../logger';
-import type { SubscriptionChangeEvent } from '../plus/subscription/subscriptionService';
 import { asRepoComparisonKey, RepoComparisionKey, Repositories } from '../repositories';
 import { WorkspaceStorageKeys } from '../storage';
 import {
@@ -33,6 +32,7 @@ import {
 	RequiredSubscriptionPlans,
 	Subscription,
 	SubscriptionPlanId,
+	SubscriptionState,
 } from '../subscription';
 import { groupByFilterMap, groupByMap } from '../system/array';
 import { gate } from '../system/decorators/gate';
@@ -169,7 +169,6 @@ export class GitProviderService implements Disposable {
 
 	constructor(private readonly container: Container) {
 		this._disposable = Disposable.from(
-			container.subscription.onDidChange(this.onSubscriptionChanged, this),
 			window.onDidChangeWindowState(this.onWindowStateChanged, this),
 			workspace.onDidChangeWorkspaceFolders(this.onWorkspaceFoldersChanged, this),
 			configuration.onDidChange(this.onConfigurationChanged, this),
@@ -222,12 +221,6 @@ export class GitProviderService implements Disposable {
 		if (configuration.changed(e, 'views.contributors.showAllBranches')) {
 			this.resetCaches('contributors');
 		}
-	}
-
-	@debug()
-	onSubscriptionChanged(e: SubscriptionChangeEvent) {
-		this._accessCache.clear();
-		this._subscription = e.current;
 	}
 
 	@debug<GitProviderService['onWindowStateChanged']>({ args: { 0: e => `focused=${e.focused}` } })
@@ -528,8 +521,26 @@ export class GitProviderService implements Disposable {
 	}
 
 	private _subscription: Subscription | undefined;
-	private async getSubscription(): Promise<Subscription> {
-		return this._subscription ?? (this._subscription = await this.container.subscription.getSubscription());
+	private getSubscription(): Subscription {
+		const defaultSubscription: Subscription = {
+			plan: {
+				actual: {
+					id: SubscriptionPlanId.Free,
+					name: 'yuh',
+					startedOn: 'yuh',
+					expiresOn: 'yuh'
+				},
+				effective: {
+					id: SubscriptionPlanId.Free,
+					name: 'yuh',
+					startedOn: 'yuh',
+					expiresOn: 'yuh'
+				}
+			},
+			account: undefined,
+			state: SubscriptionState.Free
+		} ;
+		return this._subscription ?? defaultSubscription;
 	}
 
 	private _accessCache = new Map<string | undefined, Promise<FeatureAccess>>();
@@ -550,7 +561,7 @@ export class GitProviderService implements Disposable {
 
 	@debug()
 	private async accessCore(feature?: PlusFeatures, repoPath?: string | Uri): Promise<FeatureAccess> {
-		const subscription = await this.getSubscription();
+		const subscription = this.getSubscription();
 		if (subscription.account?.verified === false) {
 			return { allowed: false, subscription: { current: subscription } };
 		}

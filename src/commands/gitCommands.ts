@@ -710,22 +710,18 @@ export class GitCommandsCommand extends Command {
 										return;
 
 									case Directive.StartPreviewTrial:
-										void Container.instance.subscription.startPreviewTrial();
 										resolve(undefined);
 										return;
 
 									case Directive.RequiresVerification:
-										void Container.instance.subscription.resendVerification();
 										resolve(undefined);
 										return;
 
 									case Directive.RequiresFreeSubscription:
-										void Container.instance.subscription.loginOrSignUp();
 										resolve(undefined);
 										return;
 
 									case Directive.RequiresPaidSubscription:
-										void Container.instance.subscription.purchase();
 										resolve(undefined);
 										return;
 								}

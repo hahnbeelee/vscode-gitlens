@@ -27,9 +27,6 @@ import { GitProviderService } from './git/gitProviderService';
 import { LineHoverController } from './hovers/lineHoverController';
 import { Keyboard } from './keyboard';
 import { Logger } from './logger';
-import { SubscriptionAuthenticationProvider } from './plus/subscription/authenticationProvider';
-import { ServerConnection } from './plus/subscription/serverConnection';
-import { SubscriptionService } from './plus/subscription/subscriptionService';
 import { Storage } from './storage';
 import { executeCommand } from './system/command';
 import { log } from './system/decorators/log';
@@ -148,13 +145,6 @@ export class Container {
 
 		context.subscriptions.push(configuration.onWillChange(this.onConfigurationChanging, this));
 
-		const server = new ServerConnection(this);
-		context.subscriptions.push(server);
-		context.subscriptions.push(
-			(this._subscriptionAuthentication = new SubscriptionAuthenticationProvider(this, server)),
-		);
-		context.subscriptions.push((this._subscription = new SubscriptionService(this)));
-
 		context.subscriptions.push((this._git = new GitProviderService(this)));
 		context.subscriptions.push(new GitFileSystemProvider(this));
 
@@ -199,17 +189,17 @@ export class Container {
 
 	private _ready: boolean = false;
 
-	async ready() {
+	ready() {
 		if (this._ready) throw new Error('Container is already ready');
 
 		this._ready = true;
-		await this.registerGitProviders();
+		this.registerGitProviders();
 		queueMicrotask(() => this._onReady.fire());
 	}
 
 	@log()
-	private async registerGitProviders() {
-		const providers = await getSupportedGitProviders(this);
+	private registerGitProviders() {
+		const providers = getSupportedGitProviders(this);
 		for (const provider of providers) {
 			this._context.subscriptions.push(this._git.register(provider.descriptor.id, provider));
 		}
@@ -401,16 +391,6 @@ export class Container {
 		}
 
 		return this._searchAndCompareView;
-	}
-
-	private _subscription: SubscriptionService;
-	get subscription() {
-		return this._subscription;
-	}
-
-	private _subscriptionAuthentication: SubscriptionAuthenticationProvider;
-	get subscriptionAuthentication() {
-		return this._subscriptionAuthentication;
 	}
 
 	private _stashesView: StashesView | undefined;

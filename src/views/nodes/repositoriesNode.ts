@@ -109,7 +109,7 @@ export class RepositoriesNode extends SubscribeableViewNode<RepositoriesView> {
 	}
 
 	protected override etag(): number {
-		return szudzikPairing(this.view.container.git.etag, this.view.container.subscription.etag);
+		return szudzikPairing(this.view.container.git.etag, 12345);
 	}
 
 	@debug({ args: false })

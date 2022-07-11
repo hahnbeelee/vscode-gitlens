@@ -21,7 +21,6 @@ import {
 	RepositoryChangeEvent,
 } from '../../git/models';
 import { Logger } from '../../logger';
-import { SubscriptionChangeEvent } from '../../plus/subscription/subscriptionService';
 import { gate } from '../../system/decorators/gate';
 import { debug, log, logName } from '../../system/decorators/log';
 import { is as isA, szudzikPairing } from '../../system/function';
@@ -544,25 +543,18 @@ export abstract class RepositoriesSubscribeableNode<
 	}
 
 	protected override etag(): number {
-		return szudzikPairing(this.view.container.git.etag, this.view.container.subscription.etag);
+		return szudzikPairing(this.view.container.git.etag, 123456);
 	}
 
 	@debug()
 	protected subscribe(): Disposable | Promise<Disposable> {
 		return Disposable.from(
 			this.view.container.git.onDidChangeRepositories(this.onRepositoriesChanged, this),
-			this.view.container.subscription.onDidChange(this.onSubscriptionChanged, this),
 		);
 	}
 
 	private onRepositoriesChanged(_e: RepositoriesChangeEvent) {
 		void this.triggerChange(true);
-	}
-
-	private onSubscriptionChanged(e: SubscriptionChangeEvent) {
-		if (e.current.plan !== e.previous.plan) {
-			void this.triggerChange(true);
-		}
 	}
 }
 

@@ -158,19 +158,6 @@ export function deactivate() {
 	// nothing to do
 }
 
-// async function migrateSettings(context: ExtensionContext, previousVersion: string | undefined) {
-// 	if (previousVersion === undefined) return;
-
-// 	const previous = fromString(previousVersion);
-
-// 	try {
-// 		if (compare(previous, from(11, 0, 0)) !== 1) {
-// 		}
-// 	} catch (ex) {
-// 		Logger.error(ex, 'migrateSettings');
-// 	}
-// }
-
 function setKeysForSync(context: ExtensionContext, ...keys: (SyncedStorageKeys | string)[]) {
 	return context.globalState?.setKeysForSync([
 		...keys,

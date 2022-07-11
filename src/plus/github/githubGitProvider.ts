@@ -2692,34 +2692,6 @@ export class GitHubGitProvider implements GitProvider, Disposable {
 		}
 		return limit;
 	}
-
-	private async resolveReferenceCore(
-		repoPath: string,
-		metadata: Metadata,
-		ref?: string,
-	): Promise<string | undefined> {
-		if (ref == null || ref === 'HEAD') {
-			const revision = await metadata.getRevision();
-			return revision.revision;
-		}
-
-		if (GitRevision.isSha(ref)) return ref;
-
-		// TODO@eamodio need to handle ranges
-		if (GitRevision.isRange(ref)) return undefined;
-
-		const [branchResults, tagResults] = await Promise.allSettled([
-			this.getBranches(repoPath, { filter: b => b.name === ref }),
-			this.getTags(repoPath, { filter: t => t.name === ref }),
-		]);
-
-		ref =
-			(branchResults.status === 'fulfilled' ? branchResults.value.values[0]?.sha : undefined) ??
-			(tagResults.status === 'fulfilled' ? tagResults.value.values[0]?.sha : undefined);
-		if (ref == null) debugger;
-
-		return ref;
-	}
 }
 
 function encodeAuthority<T>(scheme: string, metadata?: T): string {
