@@ -52,7 +52,6 @@ import { ViewCommands } from './views/viewCommands';
 import { ViewFileDecorationProvider } from './views/viewDecorationProvider';
 import { WorktreesView } from './views/worktreesView';
 import { VslsController } from './vsls/vsls';
-import { WelcomeWebview } from './webviews/welcome/welcomeWebview';
 
 export class Container {
 	static #instance: Container | undefined;
@@ -170,8 +169,6 @@ export class Container {
 		context.subscriptions.push((this._fileAnnotationController = new FileAnnotationController(this)));
 		context.subscriptions.push((this._lineAnnotationController = new LineAnnotationController(this)));
 		context.subscriptions.push((this._lineHoverController = new LineHoverController(this)));
-
-		context.subscriptions.push((this._welcomeWebview = new WelcomeWebview(this)));
 
 		context.subscriptions.push(new ViewFileDecorationProvider());
 
@@ -471,10 +468,6 @@ export class Container {
 		return this._vsls;
 	}
 
-	private _welcomeWebview: WelcomeWebview;
-	get welcomeWebview() {
-		return this._welcomeWebview;
-	}
 
 	private _worktreesView: WorktreesView | undefined;
 	get worktreesView() {

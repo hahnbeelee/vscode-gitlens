@@ -65,14 +65,12 @@
 		"onView:gitlens.views.contributors",
 		"onView:gitlens.views.searchAndCompare",
 		"onView:gitlens.views.worktrees",
-		"onWebviewPanel:gitlens.welcome",
 		"onCommand:gitlens.plus.learn",
 		"onCommand:gitlens.plus.loginOrSignUp",
 		"onCommand:gitlens.plus.logout",
 		"onCommand:gitlens.plus.startPreviewTrial",
 		"onCommand:gitlens.plus.manage",
 		"onCommand:gitlens.plus.purchase",
-		"onCommand:gitlens.getStarted",
 		"onCommand:gitlens.showSettingsPage",
 		"onCommand:gitlens.showSettingsPage#views",
 		"onCommand:gitlens.showSettingsPage#branches-view",
@@ -3284,11 +3282,6 @@
 				"command": "gitlens.plus.reset",
 				"title": "Reset...",
 				"category": "GitLens+"
-			},
-			{
-				"command": "gitlens.getStarted",
-				"title": "Get Started",
-				"category": "GitLens"
 			},
 			{
 				"command": "gitlens.showSettingsPage",
@@ -7355,11 +7348,6 @@
 			],
 			"extension/context": [
 				{
-					"command": "gitlens.getStarted",
-					"when": "extension =~ /^eamodio.gitlens(-insiders)?$/ && extensionStatus == installed",
-					"group": "9_gitlens@1"
-				},
-				{
 					"command": "gitlens.showWelcomePage",
 					"when": "extension =~ /^eamodio.gitlens(-insiders)?$/ && extensionStatus == installed",
 					"group": "9_gitlens@2"
@@ -10368,101 +10356,6 @@
 			]
 		},
 		"walkthroughs": [
-			{
-				"id": "gitlens.welcome",
-				"title": "Get Started with GitLens",
-				"description": "Discover and personalize features that supercharge your Git experience",
-				"steps": [
-					{
-						"id": "gitlens.welcome.experience",
-						"title": "Get setup quickly",
-						"description": "Use the Quick Setup to easily configure frequently used GitLens features.\n\n[Open Quick Setup](command:gitlens.showWelcomePage?%22quick-setup%22 \"Opens the GitLens Quick Setup\")",
-						"media": {
-							"markdown": "walkthroughs/getting-started/1-setup.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.settings",
-						"title": "Easily customize every aspect of GitLens",
-						"description": "A rich, interactive settings editor enables seemingly endless customization possibilities.\n\n[Open Settings](command:gitlens.showSettingsPage \"Opens the GitLens Interactive Settings\")",
-						"media": {
-							"markdown": "walkthroughs/getting-started/2-customize.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.currentLineBlame",
-						"title": "See who made what changes at a glance",
-						"description": "Current line and status bar blame provide historical context about line changes.",
-						"media": {
-							"markdown": "walkthroughs/getting-started/3-current-line-blame.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.gitCodeLens",
-						"title": "View Git authorship via CodeLens",
-						"description": "CodeLens adds contextual authorship information and links at the top of each file and at the beginning of each block of code.",
-						"media": {
-							"markdown": "walkthroughs/getting-started/4-git-codelens.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.revisionHistory",
-						"title": "Easily navigate revision history",
-						"description": "",
-						"media": {
-							"markdown": "walkthroughs/getting-started/5-revision-history.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.fileAnnotations",
-						"title": "See more context with file annotations",
-						"description": "Whole file annotations place visual indicators in the gutter and scroll bar that provide additional context about changes.",
-						"media": {
-							"markdown": "walkthroughs/getting-started/6-file-annotations.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.gitSideBarViews",
-						"title": "Explore repositories from the side bar",
-						"description": "Rich views expose even more Git functionality in your side bar.\n\n[Set Views Layout](command:gitlens.setViewsLayout)",
-						"media": {
-							"markdown": "walkthroughs/getting-started/7-git-side-bar-views.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.hostingServiceIntegrations",
-						"title": "Integrate with Git hosting services",
-						"description": "Quickly gain insights from pull requests and issues without leaving your editor.",
-						"media": {
-							"markdown": "walkthroughs/getting-started/8-hosting-service-integrations.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.gitCommandPalette",
-						"title": "Work faster with Git Command Palette",
-						"description": "Now you don't have to remember all those Git commands.\n\n[Open Git Command Palette](command:gitlens.gitCommands)",
-						"media": {
-							"markdown": "walkthroughs/getting-started/9-git-command-palette.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.terminal",
-						"title": "Jump to git details from the terminal",
-						"description": "Using ctrl/cmd+click on autolinks in the integrated terminal will quickly jump to more details for commits, branches, tags, and more.",
-						"media": {
-							"markdown": "walkthroughs/getting-started/11-terminal.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.plus",
-						"title": "Introducing GitLens+",
-						"description": "Check out the all-new, completely optional, GitLens+ features.\n\n[Learn about GitLens+ features](command:gitlens.plus.learn?false \"Open the GitLens+ features walkthrough\")",
-						"media": {
-							"markdown": "walkthroughs/getting-started/12-plus.md"
-						}
-					}
-				]
-			},
 			{
 				"id": "gitlens.plus",
 				"title": "Introducing GitLens+",
