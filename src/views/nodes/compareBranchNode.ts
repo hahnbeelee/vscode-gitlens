@@ -12,13 +12,12 @@ import { pluralize } from '../../system/string';
 import { BranchesView } from '../branchesView';
 import { CommitsView } from '../commitsView';
 import { RepositoriesView } from '../repositoriesView';
-import { WorktreesView } from '../worktreesView';
 import { RepositoryNode } from './repositoryNode';
 import { CommitsQueryResults, ResultsCommitsNode } from './resultsCommitsNode';
 import { FilesQueryResults, ResultsFilesNode } from './resultsFilesNode';
 import { ContextValues, ViewNode } from './viewNode';
 
-export class CompareBranchNode extends ViewNode<BranchesView | CommitsView | RepositoriesView | WorktreesView> {
+export class CompareBranchNode extends ViewNode<BranchesView | CommitsView | RepositoriesView> {
 	static key = ':compare-branch';
 	static getId(repoPath: string, name: string, root: boolean): string {
 		return `${RepositoryNode.getId(repoPath)}${this.key}(${name})${root ? ':root' : ''}`;
@@ -29,7 +28,7 @@ export class CompareBranchNode extends ViewNode<BranchesView | CommitsView | Rep
 
 	constructor(
 		uri: GitUri,
-		view: BranchesView | CommitsView | RepositoriesView | WorktreesView,
+		view: BranchesView | CommitsView | RepositoriesView,
 		parent: ViewNode,
 		public readonly branch: GitBranch,
 		private showComparison: ViewShowBranchComparison,

@@ -489,7 +489,6 @@ interface ViewsConfigs {
 	searchAndCompare: SearchAndCompareViewConfig;
 	stashes: StashesViewConfig;
 	tags: TagsViewConfig;
-	worktrees: WorktreesViewConfig;
 }
 
 export type ViewsConfigKeys = keyof ViewsConfigs;
@@ -504,7 +503,6 @@ export const viewsConfigKeys: ViewsConfigKeys[] = [
 	'tags',
 	'contributors',
 	'searchAndCompare',
-	'worktrees',
 ];
 
 export type ViewsConfig = ViewsCommonConfig & ViewsConfigs;
@@ -621,18 +619,6 @@ export interface TagsViewConfig {
 	};
 	files: ViewsFilesConfig;
 	reveal: boolean;
-}
-
-export interface WorktreesViewConfig {
-	avatars: boolean;
-	files: ViewsFilesConfig;
-	pullRequests: {
-		enabled: boolean;
-		showForBranches: boolean;
-		showForCommits: boolean;
-	};
-	reveal: boolean;
-	showBranchComparison: false | ViewShowBranchComparison.Branch;
 }
 
 export interface ViewsFilesConfig {

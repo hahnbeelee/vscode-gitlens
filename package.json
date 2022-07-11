@@ -95,7 +95,6 @@
 		"onCommand:gitlens.showSearchAndCompareView",
 		"onCommand:gitlens.showStashesView",
 		"onCommand:gitlens.showTagsView",
-		"onCommand:gitlens.showWorktreesView",
 		"onCommand:gitlens.compareWith",
 		"onCommand:gitlens.compareHeadWith",
 		"onCommand:gitlens.compareWorkingWith",
@@ -3422,11 +3421,6 @@
 				"category": "GitLens"
 			},
 			{
-				"command": "gitlens.showWorktreesView",
-				"title": "Show Worktrees View",
-				"category": "GitLens"
-			},
-			{
 				"command": "gitlens.compareWith",
 				"title": "Compare References...",
 				"category": "GitLens",
@@ -5660,10 +5654,6 @@
 				{
 					"command": "gitlens.showTagsView",
 					"when": "gitlens:enabled"
-				},
-				{
-					"command": "gitlens.showWorktreesView",
-					"when": "gitlens:enabled && !gitlens:hasVirtualFolders"
 				},
 				{
 					"command": "gitlens.compareWith",

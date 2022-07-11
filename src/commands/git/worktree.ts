@@ -163,7 +163,7 @@ export class WorktreeGitCommand extends QuickCommand<State> {
 	protected async *steps(state: PartialStepState<State>): StepGenerator {
 		const context: Context = {
 			repos: Container.instance.git.openRepositories,
-			associatedView: Container.instance.worktreesView,
+			associatedView: Container.instance.contributorsView,
 			showTags: false,
 			title: this.title,
 		};

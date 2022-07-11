@@ -15,7 +15,6 @@ import { debug } from '../../system/decorators/log';
 import { map } from '../../system/iterable';
 import { pad } from '../../system/string';
 import { RepositoriesView } from '../repositoriesView';
-import { WorktreesView } from '../worktreesView';
 import { CommitNode } from './commitNode';
 import { LoadMoreNode, MessageNode } from './common';
 import { CompareBranchNode } from './compareBranchNode';
@@ -25,7 +24,7 @@ import { RepositoryNode } from './repositoryNode';
 import { UncommittedFilesNode } from './UncommittedFilesNode';
 import { ContextValues, ViewNode } from './viewNode';
 
-export class WorktreeNode extends ViewNode<WorktreesView | RepositoriesView> {
+export class WorktreeNode extends ViewNode<RepositoriesView> {
 	static key = ':worktree';
 	static getId(repoPath: string, uri: Uri): string {
 		return `${RepositoryNode.getId(repoPath)}${this.key}(${uri.path})`;
@@ -36,7 +35,7 @@ export class WorktreeNode extends ViewNode<WorktreesView | RepositoriesView> {
 
 	constructor(
 		uri: GitUri,
-		view: WorktreesView | RepositoriesView,
+		view: RepositoriesView,
 		parent: ViewNode,
 		public readonly worktree: GitWorktree,
 	) {

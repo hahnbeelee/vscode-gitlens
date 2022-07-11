@@ -917,10 +917,7 @@ export namespace GitActions {
 			worktree: GitWorktree,
 			options?: { select?: boolean; focus?: boolean; expand?: boolean | number },
 		) {
-			const view = Container.instance.worktreesView;
-			const node = view.canReveal
-				? await view.revealWorktree(worktree, options)
-				: await Container.instance.repositoriesView.revealWorktree(worktree, options);
+			const node = await Container.instance.repositoriesView.revealWorktree(worktree, options);
 			return node;
 		}
 

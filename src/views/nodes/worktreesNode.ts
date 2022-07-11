@@ -6,13 +6,12 @@ import { Repository } from '../../git/models';
 import { gate } from '../../system/decorators/gate';
 import { debug } from '../../system/decorators/log';
 import { RepositoriesView } from '../repositoriesView';
-import { WorktreesView } from '../worktreesView';
 import { MessageNode } from './common';
 import { RepositoryNode } from './repositoryNode';
 import { ContextValues, ViewNode } from './viewNode';
 import { WorktreeNode } from './worktreeNode';
 
-export class WorktreesNode extends ViewNode<WorktreesView | RepositoriesView> {
+export class WorktreesNode extends ViewNode<RepositoriesView> {
 	static key = ':worktrees';
 	static getId(repoPath: string): string {
 		return `${RepositoryNode.getId(repoPath)}${this.key}`;
@@ -22,7 +21,7 @@ export class WorktreesNode extends ViewNode<WorktreesView | RepositoriesView> {
 
 	constructor(
 		uri: GitUri,
-		view: WorktreesView | RepositoriesView,
+		view: RepositoriesView,
 		parent: ViewNode,
 		public readonly repo: Repository,
 	) {

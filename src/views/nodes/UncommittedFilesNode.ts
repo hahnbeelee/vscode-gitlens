@@ -16,13 +16,12 @@ import { groupBy, makeHierarchical } from '../../system/array';
 import { flatMap } from '../../system/iterable';
 import { joinPaths, normalizePath } from '../../system/path';
 import { RepositoriesView } from '../repositoriesView';
-import { WorktreesView } from '../worktreesView';
 import { FileNode, FolderNode } from './folderNode';
 import { RepositoryNode } from './repositoryNode';
 import { UncommittedFileNode } from './UncommittedFileNode';
 import { ContextValues, ViewNode } from './viewNode';
 
-export class UncommittedFilesNode extends ViewNode<RepositoriesView | WorktreesView> {
+export class UncommittedFilesNode extends ViewNode<RepositoriesView> {
 	static key = ':uncommitted-files';
 	static getId(repoPath: string): string {
 		return `${RepositoryNode.getId(repoPath)}${this.key}`;
@@ -31,7 +30,7 @@ export class UncommittedFilesNode extends ViewNode<RepositoriesView | WorktreesV
 	readonly repoPath: string;
 
 	constructor(
-		view: RepositoriesView | WorktreesView,
+		view: RepositoriesView,
 		parent: ViewNode,
 		public readonly status:
 			| GitStatus
