@@ -204,7 +204,6 @@ export const enum Commands {
 	ToggleFileHeatmap = 'gitlens.toggleFileHeatmap',
 	ToggleFileHeatmapInDiffLeft = 'gitlens.toggleFileHeatmapInDiffLeft',
 	ToggleFileHeatmapInDiffRight = 'gitlens.toggleFileHeatmapInDiffRight',
-	ToggleLineBlame = 'gitlens.toggleLineBlame',
 	ToggleReviewMode = 'gitlens.toggleReviewMode',
 	ToggleZenMode = 'gitlens.toggleZenMode',
 	ViewsCopy = 'gitlens.views.copy',

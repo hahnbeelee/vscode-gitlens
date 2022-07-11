@@ -9,7 +9,6 @@ import {
 import { getSupportedGitProviders } from '@env/providers';
 import { Autolinks } from './annotations/autolinks';
 import { FileAnnotationController } from './annotations/fileAnnotationController';
-import { LineAnnotationController } from './annotations/lineAnnotationController';
 import { ActionRunners } from './api/actionRunners';
 import { resetAvatarCache } from './avatars';
 import type { ToggleFileAnnotationCommandArgs } from './commands';
@@ -167,7 +166,6 @@ export class Container {
 		context.subscriptions.push((this._vsls = new VslsController(this)));
 
 		context.subscriptions.push((this._fileAnnotationController = new FileAnnotationController(this)));
-		context.subscriptions.push((this._lineAnnotationController = new LineAnnotationController(this)));
 		context.subscriptions.push((this._lineHoverController = new LineHoverController(this)));
 
 		context.subscriptions.push(new ViewFileDecorationProvider());
@@ -359,11 +357,6 @@ export class Container {
 	private _keyboard: Keyboard;
 	get keyboard() {
 		return this._keyboard;
-	}
-
-	private _lineAnnotationController: LineAnnotationController;
-	get lineAnnotations() {
-		return this._lineAnnotationController;
 	}
 
 	private _lineHistoryView: LineHistoryView | undefined;

@@ -55,4 +55,3 @@ export * from './commands/stashApply';
 export * from './commands/stashSave';
 export * from './commands/switchMode';
 export * from './commands/toggleFileAnnotations';
-export * from './commands/toggleLineBlame';

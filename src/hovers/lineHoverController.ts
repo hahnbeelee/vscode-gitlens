@@ -109,7 +109,7 @@ export class LineHoverController implements Disposable {
 
 		const wholeLine = this.container.config.hovers.currentLine.over === 'line';
 		// If we aren't showing the hover over the whole line, make sure the annotation is on
-		if (!wholeLine && this.container.lineAnnotations.suspended) return undefined;
+		if (!wholeLine) return undefined;
 
 		const range = document.validateRange(
 			new Range(position.line, wholeLine ? 0 : Number.MAX_SAFE_INTEGER, position.line, Number.MAX_SAFE_INTEGER),
@@ -166,7 +166,7 @@ export class LineHoverController implements Disposable {
 
 		const wholeLine = this.container.config.hovers.currentLine.over === 'line';
 		// If we aren't showing the hover over the whole line, make sure the annotation is on
-		if (!wholeLine && this.container.lineAnnotations.suspended) return undefined;
+		if (!wholeLine) return undefined;
 
 		const range = document.validateRange(
 			new Range(position.line, wholeLine ? 0 : Number.MAX_SAFE_INTEGER, position.line, Number.MAX_SAFE_INTEGER),

@@ -126,7 +126,6 @@
 		"onCommand:gitlens.toggleFileHeatmapInDiffRight",
 		"onCommand:gitlens.toggleFileChanges",
 		"onCommand:gitlens.toggleFileChangesOnly",
-		"onCommand:gitlens.toggleLineBlame",
 		"onCommand:gitlens.gitCommands",
 		"onCommand:gitlens.switchMode",
 		"onCommand:gitlens.toggleReviewMode",
@@ -3664,11 +3663,6 @@
 				}
 			},
 			{
-				"command": "gitlens.toggleLineBlame",
-				"title": "Toggle Line Blame",
-				"category": "GitLens"
-			},
-			{
 				"command": "gitlens.gitCommands",
 				"title": "Git Command Palette",
 				"category": "GitLens"
@@ -5790,10 +5784,6 @@
 				{
 					"command": "gitlens.toggleFileChangesOnly",
 					"when": "false"
-				},
-				{
-					"command": "gitlens.toggleLineBlame",
-					"when": "!gitlens:disabled"
 				},
 				{
 					"command": "gitlens.gitCommands",
