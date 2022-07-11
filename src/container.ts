@@ -52,7 +52,6 @@ import { ViewCommands } from './views/viewCommands';
 import { ViewFileDecorationProvider } from './views/viewDecorationProvider';
 import { WorktreesView } from './views/worktreesView';
 import { VslsController } from './vsls/vsls';
-import { RebaseEditorProvider } from './webviews/rebase/rebaseEditor';
 import { SettingsWebview } from './webviews/settings/settingsWebview';
 import { WelcomeWebview } from './webviews/welcome/welcomeWebview';
 
@@ -175,7 +174,6 @@ export class Container {
 
 		context.subscriptions.push((this._settingsWebview = new SettingsWebview(this)));
 		context.subscriptions.push((this._welcomeWebview = new WelcomeWebview(this)));
-		context.subscriptions.push((this._rebaseEditor = new RebaseEditorProvider(this)));
 
 		context.subscriptions.push(new ViewFileDecorationProvider());
 
@@ -390,15 +388,6 @@ export class Container {
 	private _lineTracker: GitLineTracker;
 	get lineTracker() {
 		return this._lineTracker;
-	}
-
-	private _rebaseEditor: RebaseEditorProvider | undefined;
-	get rebaseEditor() {
-		if (this._rebaseEditor == null) {
-			this._context.subscriptions.push((this._rebaseEditor = new RebaseEditorProvider(this)));
-		}
-
-		return this._rebaseEditor;
 	}
 
 	private _remotesView: RemotesView | undefined;

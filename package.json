@@ -53,7 +53,6 @@
 		"onCommand:mintlify.link-dir",
 		"onCommand:mintlify.prefill-doc",
 		"onAuthenticationRequest:gitlens-gitkraken",
-		"onCustomEditor:gitlens.rebase",
 		"onFileSystem:gitlens",
 		"onView:gitlens.views.repositories",
 		"onView:gitlens.views.commits",
@@ -5753,14 +5752,6 @@
 					"when": "gitlens:activeFileStatus =~ /blameable/"
 				},
 				{
-					"command": "gitlens.disableRebaseEditor",
-					"when": "gitlens:enabled"
-				},
-				{
-					"command": "gitlens.enableRebaseEditor",
-					"when": "gitlens:enabled"
-				},
-				{
 					"command": "gitlens.externalDiff",
 					"when": "!gitlens:hasVirtualFolders && gitlens:activeFileStatus =~ /tracked/"
 				},
@@ -10198,17 +10189,6 @@
 				"when": "gitlens:enabled && focusedView =~ /^gitlens\\.views\\.worktrees/"
 			}
 		],
-		"customEditors": [
-			{
-				"viewType": "gitlens.rebase",
-				"displayName": "GitLens Interactive Rebase Editor",
-				"selector": [
-					{
-						"filenamePattern": "git-rebase-todo"
-					}
-				]
-			}
-		],
 		"resourceLabelFormatters": [
 			{
 				"scheme": "gitlens",
@@ -10464,14 +10444,6 @@
 						"description": "Now you don't have to remember all those Git commands.\n\n[Open Git Command Palette](command:gitlens.gitCommands)",
 						"media": {
 							"markdown": "walkthroughs/getting-started/9-git-command-palette.md"
-						}
-					},
-					{
-						"id": "gitlens.welcome.interactiveRebaseEditor",
-						"title": "Visualize interactive rebase operations",
-						"description": "A user-friendly interactive rebase editor to easily configure an interactive rebase session",
-						"media": {
-							"markdown": "walkthroughs/getting-started/10-interactive-rebase-editor.md"
 						}
 					},
 					{
