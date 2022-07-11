@@ -340,7 +340,6 @@ function getWebviewsConfig(mode, env) {
 			},
 		}),
 		new MiniCssExtractPlugin({ filename: '[name].css' }),
-		getHtmlPlugin('rebase', false, mode, env),
 		getHtmlPlugin('settings', false, mode, env),
 		getHtmlPlugin('welcome', false, mode, env),
 		getCspHtmlPlugin(mode, env),
@@ -381,8 +380,6 @@ function getWebviewsConfig(mode, env) {
 		name: 'webviews',
 		context: basePath,
 		entry: {
-			home: './home/home.ts',
-			rebase: './rebase/rebase.ts',
 			settings: './settings/settings.ts',
 			welcome: './welcome/welcome.ts',
 		},

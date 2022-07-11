@@ -41,14 +41,8 @@ export abstract class WebviewWithConfigBase<State> extends WebviewBase<State> {
 		);
 	}
 
-	private onAnyConfigurationChanged(e: ConfigurationChangeEvent) {
-		let notify = false;
-		for (const setting of this.customSettings.values()) {
-			if (e.affectsConfiguration(setting.name)) {
-				notify = true;
-				break;
-			}
-		}
+	private onAnyConfigurationChanged(_: ConfigurationChangeEvent) {
+		const notify = false;
 
 		if (!notify) return;
 
@@ -104,13 +98,6 @@ export abstract class WebviewWithConfigBase<State> extends WebviewBase<State> {
 
 					for (const key in params.changes) {
 						let value = params.changes[key];
-
-						const customSetting = this.customSettings.get(key);
-						if (customSetting != null) {
-							await customSetting.update(value);
-
-							continue;
-						}
 
 						const inspect = configuration.inspect(key as any)!;
 
@@ -215,26 +202,11 @@ export abstract class WebviewWithConfigBase<State> extends WebviewBase<State> {
 
 	private _customSettings: Map<string, CustomSetting> | undefined;
 	private get customSettings() {
-		if (this._customSettings == null) {
-			this._customSettings = new Map<string, CustomSetting>([
-				[
-					'rebaseEditor.enabled',
-					{
-						name: 'workbench.editorAssociations',
-						enabled: () => this.container.rebaseEditor.enabled,
-						update: this.container.rebaseEditor.setEnabled,
-					},
-				],
-			]);
-		}
 		return this._customSettings;
 	}
 
 	protected getCustomSettings(): Record<string, boolean> {
 		const customSettings = Object.create(null);
-		for (const [key, setting] of this.customSettings) {
-			customSettings[key] = setting.enabled();
-		}
 		return customSettings;
 	}
 
