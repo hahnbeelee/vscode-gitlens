@@ -93,6 +93,8 @@ export const enum Commands {
 	DisconnectRemoteProvider = 'gitlens.disconnectRemoteProvider',
 	DisableDebugLogging = 'gitlens.disableDebugLogging',
 	EnableDebugLogging = 'gitlens.enableDebugLogging',
+	DisableRebaseEditor = 'gitlens.disableRebaseEditor',
+	EnableRebaseEditor = 'gitlens.enableRebaseEditor',
 	ExternalDiff = 'gitlens.externalDiff',
 	ExternalDiffAll = 'gitlens.externalDiffAll',
 	FetchRepositories = 'gitlens.fetchRepositories',

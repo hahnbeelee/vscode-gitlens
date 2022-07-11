@@ -75,9 +75,10 @@ export class RebaseGitCommand extends QuickCommand<State> {
 		return false;
 	}
 
-	execute(state: RebaseStepState) {
+	async execute(state: RebaseStepState) {
 		let configs: string[] | undefined;
 		if (state.flags.includes('--interactive')) {
+			await this.container.rebaseEditor.enableForNextUse();
 
 			let editor;
 			switch (env.appName) {
