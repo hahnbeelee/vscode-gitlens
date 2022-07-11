@@ -52,7 +52,6 @@ import { ViewCommands } from './views/viewCommands';
 import { ViewFileDecorationProvider } from './views/viewDecorationProvider';
 import { WorktreesView } from './views/worktreesView';
 import { VslsController } from './vsls/vsls';
-import { SettingsWebview } from './webviews/settings/settingsWebview';
 import { WelcomeWebview } from './webviews/welcome/welcomeWebview';
 
 export class Container {
@@ -172,7 +171,6 @@ export class Container {
 		context.subscriptions.push((this._lineAnnotationController = new LineAnnotationController(this)));
 		context.subscriptions.push((this._lineHoverController = new LineHoverController(this)));
 
-		context.subscriptions.push((this._settingsWebview = new SettingsWebview(this)));
 		context.subscriptions.push((this._welcomeWebview = new WelcomeWebview(this)));
 
 		context.subscriptions.push(new ViewFileDecorationProvider());
@@ -425,11 +423,6 @@ export class Container {
 	private _subscriptionAuthentication: SubscriptionAuthenticationProvider;
 	get subscriptionAuthentication() {
 		return this._subscriptionAuthentication;
-	}
-
-	private _settingsWebview: SettingsWebview;
-	get settingsWebview() {
-		return this._settingsWebview;
 	}
 
 	private _stashesView: StashesView | undefined;
