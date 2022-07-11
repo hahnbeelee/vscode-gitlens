@@ -340,6 +340,7 @@ function getWebviewsConfig(mode, env) {
 			},
 		}),
 		new MiniCssExtractPlugin({ filename: '[name].css' }),
+		getHtmlPlugin('home', false, mode, env),
 		getHtmlPlugin('rebase', false, mode, env),
 		getHtmlPlugin('settings', false, mode, env),
 		getHtmlPlugin('welcome', false, mode, env),
