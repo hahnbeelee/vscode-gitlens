@@ -55,7 +55,6 @@
 		"onAuthenticationRequest:gitlens-gitkraken",
 		"onCustomEditor:gitlens.rebase",
 		"onFileSystem:gitlens",
-		"onView:gitlens.views.home",
 		"onView:gitlens.views.repositories",
 		"onView:gitlens.views.commits",
 		"onView:gitlens.views.fileHistory",
@@ -94,7 +93,6 @@
 		"onCommand:gitlens.showCommitsView",
 		"onCommand:gitlens.showContributorsView",
 		"onCommand:gitlens.showFileHistoryView",
-		"onCommand:gitlens.showHomeView",
 		"onCommand:gitlens.showLineHistoryView",
 		"onCommand:gitlens.showRemotesView",
 		"onCommand:gitlens.showRepositoriesView",
@@ -3404,11 +3402,6 @@
 				"category": "GitLens"
 			},
 			{
-				"command": "gitlens.showHomeView",
-				"title": "Show Home View",
-				"category": "GitLens"
-			},
-			{
 				"command": "gitlens.showLineHistoryView",
 				"title": "Show Line History View",
 				"category": "GitLens"
@@ -5012,12 +5005,6 @@
 				"category": "GitLens"
 			},
 			{
-				"command": "gitlens.views.home.refresh",
-				"title": "Refresh",
-				"category": "GitLens",
-				"icon": "$(refresh)"
-			},
-			{
 				"command": "gitlens.views.lineHistory.changeBase",
 				"title": "Change Base...",
 				"category": "GitLens",
@@ -5663,10 +5650,6 @@
 				},
 				{
 					"command": "gitlens.showFileHistoryView",
-					"when": "gitlens:enabled"
-				},
-				{
-					"command": "gitlens.showHomeView",
 					"when": "gitlens:enabled"
 				},
 				{
@@ -6707,10 +6690,6 @@
 				},
 				{
 					"command": "gitlens.views.fileHistory.setShowAvatarsOff",
-					"when": "false"
-				},
-				{
-					"command": "gitlens.views.home.refresh",
 					"when": "false"
 				},
 				{
@@ -7782,11 +7761,6 @@
 					"command": "gitlens.views.fileHistory.setShowAvatarsOff",
 					"when": "view =~ /^gitlens\\.views\\.fileHistory/ && config.gitlens.views.fileHistory.avatars",
 					"group": "5_gitlens@0"
-				},
-				{
-					"command": "gitlens.views.home.refresh",
-					"when": "view =~ /^gitlens\\.views\\.home/",
-					"group": "navigation@99"
 				},
 				{
 					"command": "gitlens.showLineHistoryView",
@@ -10253,11 +10227,6 @@
 					"id": "primary",
 					"title": "Documents",
 					"icon": "assets/icon.png"
-				},
-				{
-					"id": "gitlens",
-					"title": "GitLens",
-					"icon": "images/gitlens-activitybar.svg"
 				}
 			]
 		},
@@ -10326,17 +10295,6 @@
 				{
 					"id": "connections",
 					"name": "Connections"
-				}
-			],
-			"gitlens": [
-				{
-					"type": "webview",
-					"id": "gitlens.views.home",
-					"name": "Home",
-					"when": "!gitlens:disabled && config.gitlens.plusFeatures.enabled",
-					"contextualTitle": "GitLens",
-					"icon": "images/gitlens-activitybar.svg",
-					"visibility": "visible"
 				}
 			],
 			"scm": [
