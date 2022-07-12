@@ -135,7 +135,7 @@ export async function activate(context: ExtensionContext): Promise<GitLensApi | 
 	});
 
 	// Signal that the container is now ready
-	await container.ready();
+	container.ready();
 
 	// Set a context to only show some commands when debugging
 	if (container.debugging) {
@@ -197,4 +197,3 @@ function registerBuiltInActionRunners(container: Container): void {
 		}),
 	);
 }
-
