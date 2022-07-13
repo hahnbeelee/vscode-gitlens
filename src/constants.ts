@@ -251,6 +251,10 @@ export const enum ContextKeys {
 	PlusAllowed = 'gitlens:plus:allowed',
 	PlusRequired = 'gitlens:plus:required',
 	PlusState = 'gitlens:plus:state',
+
+	// mintlify
+	UserId = 'mintlify:userId',
+	Subdomain = 'mintlify.subdomain'
 }
 
 export const enum CoreCommands {
